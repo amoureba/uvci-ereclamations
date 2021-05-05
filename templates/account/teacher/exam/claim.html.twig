@@ -1,0 +1,100 @@
+{% extends 'base/base.html.twig' %}
+{% block title %}Evaluation: {{ evaluation.wording }} {% endblock %}
+{% block body %}
+<div class="container-fluid mt-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent">
+            <li class="breadcrumb-item"><a href="{{ path('account') }}"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item"><a href="{{ path('teacher_ecue') }}">ECUE</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('matters_schools_tasks_index', {'id': evaluation.matter.id}) }}">Devoirs</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ evaluation.wording|capitalize }}</li>
+        </ol>
+    </nav>
+{% if app.user %}
+    {% if app.user.profile == "ENSEIGNANT" %}
+        <div class="container">
+            {# begin card of evaluation detail #}
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-md-12">
+                    <div class="card m-2">
+                        <div class="card-body">
+                            <h5 class="card-title text-purple">{{ evaluation.type }} / {{ evaluation.matter.wording }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ evaluation.wording }}</h6>
+                            <p class="card-text mt-2 mb-2">{{ evaluation.description }}</p>
+                            <p>
+                                <span class="badge badge-pill badge-success font-weight-bold p-1">
+                                    <i class="fas fa-calendar-alt"></i>&nbsp;{{ evaluation.semester }}
+                                </span>
+                                <span class="badge badge-pill badge-danger font-weight-bold p-1">
+                                    <i class="fas fa-comment-alt"></i>&nbsp;{{ evaluation.claims|length }} Réclamations
+                                </span>
+
+                                <span class="badge badge-pill badge-purple font-weight-bold p-1">
+                                    {% if evaluation.archived %}
+                                        <i class="fas fa-file-archive"></i>&nbsp;Archivé
+                                    {% else %}
+                                        <i class="fas fa-folder-open"></i>&nbsp;Non Archivé
+                                    {% endif %}
+                                </span>
+                                
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {# end card of evaluation detail #}
+            {# begin claim #}
+            {% if claims is not null %}
+                <div class="row justify-content-center">
+                    <div class="col-xl-10 col-md-12">
+                        {% for claim in claims %}
+                            <div class="card m-2">
+                                <div class="row no-gutters">
+                                    <div class="col-md-6">
+                                        <img src="{{claim.capturePath}}" alt="..." class="img-fluid">
+                                    </div>
+                                    <div class="col-md-6">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ claim.wording }}</h5>
+                                        <p class="card-text">{{ claim.content }}</p>
+                                        <p class="card-text">
+                                            <span class="badge badge-pill badge-blue font-weight-bold p-1">
+                                            <i class="fas fa-user-circle"></i>&nbsp;{{ claim.author.fullName }} 
+                                            </span>
+                                            <span class="badge badge-pill badge-success font-weight-bold p-1">
+                                                <i class="fas fa-clock"></i>&nbsp;{{ claim.createdAt|date("d/m/Y h:m:s") }}
+                                            </span>
+                                            <span class="badge badge-pill badge-danger font-weight-bold p-1">
+                                                <i class="fas fa-comments"></i>&nbsp;{{ claim.answers|length }} Réponses
+                                            </span>
+                                            <span class="badge badge-pill badge-purple font-weight-bold p-1">
+                                                {% if claim.archived %}
+                                                    <i class="fas fa-file-archive"></i>&nbsp;Archivé
+                                                {% else %}
+                                                    <i class="fas fa-folder-open"></i>&nbsp;Non Archivé
+                                                {% endif %}
+                                            </span>
+
+                                        </p>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+            {# end claim #}
+        </div>
+    {% endif %}{# end student #}
+{% else %}
+    <a href="{{ path('app_login') }}" class="btn btn-success">
+        <i class="fas fa-hand-point-right"></i>&ensp;Se Connecter
+    </a>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{asset('assets/ui/js/app.js')}}"></script>
+{% endblock %}

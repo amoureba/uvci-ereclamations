@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#800080;">
+    <a class="navbar-brand" href="{{ path('account') }}"><i class="fas fa-home fa-1x"></i></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('admin') }}">
+                        <i class="fas fa-tachometer-alt"></i>&nbsp;Tableau de bord
+                    </a>
+                </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-question-circle"></i>&nbsp;FAQ
+                </a>
+            </li>  
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                {#<a class="nav-link dropdown-toggle" href="#" id="accountDropdownLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
+                    {% if app.user.avatar is empty %}
+                        <span class="ml-2 text-bold text-white">{{app.user.fullName|title}}</span>
+                    {% else %}
+                        <img src="{{app.user.avatarPath}}" class="avatar avatar-mini" alt="Avatar"><span class="ml-2 text-bold text-white">{{app.user.fullName|title}}</span>
+                    {% endif %}                   
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownLink">
+                    <div class="dropdown-item">
+                        <i class="fas fa-user"></i>&nbsp;{{ app.user.fullName }}
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ path('update_user_account') }}" class="dropdown-item">
+                        <i class="fas fa-edit"></i>&nbsp;Afficher votre profil
+                    </a>
+                    <a href="{{ path('account_password') }}" class="dropdown-item">
+                        <i class="fas fa-key"></i>&nbsp;Modifier votre mot de passe
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ path('app_logout') }}" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i>&nbsp;Déconnexion
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>

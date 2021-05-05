@@ -1,0 +1,84 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Les inscriptions de l'étudiant{% endblock %}
+{% block body %}
+    <div id="layoutSidenav_content">
+        <main>
+            <header class="page-header page-header-dark bg-header pb-10">
+                <div class="container">
+                    <div class="page-header-content pt-4">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto mt-4">
+                                <nav aria-label="breadcrumb" class="bg-transparent text-white">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="{{ path('admin') }}">
+                                            <i class="fas fa-home" style="color:white;"></i></a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a class="text-decoration-none" href="{{ path('students_index') }}">
+                                                Liste des étudiants
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active text-white" aria-current="page">
+                                            {{ user.fullName }}
+                                        </li>
+                                    </ol>
+                                </nav>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Main page content-->
+            <div class="container mt-n10">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <ul class="nav">
+                            <li class="nav-item m-2">
+                                <a class="nav-link text-uppercase text-purple font-weight-bold btn">
+                                    <i class="fas fa-code"></i>&ensp;{{registrations|length}} Inscription(s) trouvée(s)
+                                </a>
+                            </li>
+                            <li class="nav-item ml-auto m-2">
+                                <a class="nav-link btn btn-danger" href="{{ path('students_index') }}">
+                                    <i class="fas fa-reply"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="datatable">
+                            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                                <thead class="bg-secondary">
+                                    <tr class="text-uppercase font-weight-bold text-center text-white">
+                                        <th class="align-middle">Niveaux</th>
+                                        <th class="align-middle">Sémestres</th>
+                                        <th class="align-middle">Spécialités</th>
+                                        <th class="align-middle">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for registration in registrations %}
+                                    <tr>
+                                        <td class="text-center">{{ registration.level }}</td>
+                                        <td class="text-center">{{ registration.semester }}</td>
+                                        <td class="align-middle">{{ registration.specialty }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ path('admindelete_registrations', {'id': registration.id}) }}" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer mt-auto footer-light">
+            {% include "admin/footer.html.twig" %}
+        </footer>
+    </div>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'base/base.html.twig' %}
+{% block title %} {{ examination.exam.session }} - {{ examination.exam.semester }} {% endblock %}
+{% block body %}
+<div class="container-fluid mt-3">
+    <div class="container">
+        {% if app.user %}
+            {% if app.user.profile == "ENSEIGNANT" %}
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent">
+                        <li class="breadcrumb-item">
+                            <a class="text-decoration-none" href="{{ path('account') }}"><i class="fas fa-home"></i></a></li>
+                        <li class="breadcrumb-item">
+                            <a class="text-decoration-none" href="{{ path('teacher_ecue') }}">ECUE</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a class="text-decoration-none" href="{{ path('teachermatters_exams_index', {'id': examination.matter.id}) }}" class="btn btn-success btn-sm">
+                                {{examination.matter.wording}}
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            {{ examination.exam.session }} > {{ examination.exam.semester }}
+                        </li>
+                    </ol>
+                </nav>
+                <div class="card m-2">
+                    <div class="card-header">
+                        <br><span class="text-uppercase bg-success text-white font-weight-bold p-2">
+                             {{ examination.exam.session }} / {{ examination.matter.wording }} / {{ examination.exam.semester }}
+                        </span>
+                        <p class="mt-2">
+                            <span class="badge badge-pill badge-danger font-weight-bold p-1">
+                                {{ examination.claims|length }} Réclamations
+                            </span>
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        {% if claims|length > 0 %}
+                            <span class="text-uppercase bg-purple text-white font-weight-bold p-1">
+                                Réclamations
+                            </span>
+                            <hr class="m-1">
+                            {% for claim in claims %}
+                                <h3 class="font-weight-bold mb-2"><strong>{{ claim.wording }}</strong></h3>
+                                <p><i class="bi-person"></i>&nbsp;<a>{{claim.author.fullName|title}} ({{claim.author.email}})</a>, <i class="bi-clock"></i>&nbsp;{{ claim.createdAt|format_datetime('short', 'short', locale='fr') }}</p>
+                                <div class="row">
+                                    <div class="col-xl-6 col-md-12">
+                                        <img class="img-fluid" src="{{claim.capturePath}}" alt="{{ claim.wording }}">
+                                    </div>
+                                    <div class="col-xl-6 col-md-12">
+                                        <p class="mt-2">{{ claim.content }}</p>
+                                        <a class="btn btn-purple" href="{{ path('teacher_exam_examination_claim_answer', {'id' : claim.id}) }}">
+                                            AJOUTER UNE REPONSE
+                                        </a>
+                                    </div>
+                                </div>
+                                {#<hr class="my-3">#}
+                                {% if claim.answers|length > 0 %}
+                                    <hr class="my-3">
+                                    <div class="container-fluid bg-gray-200">
+                                        {% set answers = claim.answers %}
+                                        <br><span class="bg-purple text-uppercase text-white font-weight-bold p-2">
+                                            Réponses
+                                        </span><br><br>
+                                        {% for answer in answers %}
+                                            <hr class="my-2">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p>{{ answer.content }}</p>
+                                                    <p><i class="bi-person"></i>&nbsp;<a>{{answer.author.fullName|title}}</a>, <i class="bi-clock"></i>&nbsp;{{ answer.createdAt|format_datetime('short', 'short', locale='fr') }}</p>
+                                                </div>
+                                            </div>
+                                            {#<hr class="my-3">#}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <hr class="my-3">
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <a href="{{ path('app_login') }}" class="btn btn-success">
+                <i class="fas fa-hand-point-right"></i>&ensp;Se Connecter
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{asset('assets/ui/js/app.js')}}"></script>
+{% endblock %}

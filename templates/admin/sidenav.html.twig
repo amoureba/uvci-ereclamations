@@ -1,0 +1,222 @@
+            <div id="layoutSidenav_nav">
+                <nav class="sidenav shadow-right sidenav-light">
+
+                    <div class="sidenav-menu">
+                        <div class="nav accordion" id="accordionSidenav">
+                            <a class="nav-link collapsed mt-3" href="{{ path('admin') }}">
+                                <div class="nav-link-icon"><i class="fas fa-home"></i></div>
+                                Tableau de bord
+                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+
+                            {# (Années Academiques) #}
+                            <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#collapseFlows" aria-expanded="false" aria-controls="collapseFlows">
+                                <div class="nav-link-icon"><i class="fas fa-calendar"></i></div>Années Academiques
+                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseFlows" data-parent="#accordionSidenav">
+                                <nav class="sidenav-menu-nested nav">
+                                    <a class="nav-link collapsed" href="{{ path('academics_years_index') }}">
+                                        Rentrées Academiques
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <a class="nav-link collapsed" href="{{ path('semesters_index') }}">
+                                        Sémestres
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                </nav>
+                            </div>
+
+                            {# Sidenav Accordion #}
+                            <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="nav-link-icon"><i class="fas fa-user-alt"></i></div>Utilisateurs
+                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+
+                            <div class="collapse" id="collapsePages" data-parent="#accordionSidenav">
+                                <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPagesMenu">
+
+                                    {# Teachers #}
+                                    <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#pagesCollapseAccount" aria-expanded="false" aria-controls="pagesCollapseAccount">
+                                        <div class="nav-link-icon"><i class="fas fa-user-tie"></i></div>Enseignants
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseAccount" data-parent="#accordionSidenavPagesMenu">
+                                        <nav class="sidenav-menu-nested nav">
+                                            <a class="nav-link collapsed" href="{{ path('add_teachers') }}">
+                                                Ajouter des enseignants
+                                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                            </a>
+                                            <a class="nav-link collapsed" href="{{ path('imports_teachers') }}">
+                                                Importer des enseignants
+                                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                            </a>
+                                            <a class="nav-link collapsed" href="{{ path('teachers_index') }}">
+                                                Liste des enseignants
+                                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                            </a>
+                                        </nav>
+                                    </div>
+
+                                    {# Students #}
+                                    <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                        <div class="nav-link-icon"><i class="fas fa-user-graduate"></i></div>Etudiants
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseAuth" data-parent="#accordionSidenavPagesMenu">
+                                        <nav class="sidenav-menu-nested nav accordion">
+                                            <a class="nav-link collapsed" href="{{ path('add_students') }}">
+                                                Ajouter des étudiants
+                                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                            </a>
+                                            <a class="nav-link collapsed" href="{{ path('imports_students') }}">
+                                                importer des étudiants
+                                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                            </a>
+                                            <a class="nav-link collapsed" href="{{ path('grouped_assignment_by_import') }}">
+                                                Affectations d'étudiants
+                                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                            </a>
+                                            <a class="nav-link collapsed" href="{{ path('students_index') }}">
+                                                Liste des étudiants
+                                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                            </a>
+                                        </nav>
+                                    </div>
+
+                                    <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                        <div class="nav-link-icon"><i class="fas fa-user"></i></div>Gestionnaires
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseError" data-parent="#accordionSidenavPagesMenu">
+                                        <nav class="sidenav-menu-nested nav">
+                                            <a class="nav-link collapsed" href="{{ path('add_managers') }}">
+                                                Ajouter des Gestionnaires
+                                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                            </a>
+                                            <a class="nav-link collapsed" href="{{ path('managers_index') }}">
+                                                Liste des Gestionnaires
+                                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                            </a>
+                                        </nav>
+                                    </div>
+                                    {#<a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#pagesCollapseTech" aria-expanded="false" aria-controls="pagesCollapseTech">
+                                        <div class="nav-link-icon"><i class="fas fa-user"></i></div>Techniciens
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseTech" data-parent="#accordionSidenavPagesMenu">
+                                        <nav class="sidenav-menu-nested nav">
+                                            <a class="nav-link collapsed" href="{{ path('add_technicians') }}">
+                                                Ajouter des Techniciens
+                                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                            </a>
+                                            <a class="nav-link collapsed" href="{{ path('technicians_index') }}">
+                                                Liste des Techniciens
+                                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                            </a>
+                                        </nav>
+                                    </div>#}
+                                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                        <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#pagesCollapseAdmin" aria-expanded="false" aria-controls="pagesCollapseAdmin">
+                                            <div class="nav-link-icon"><i class="fas fa-user"></i></div>Administrateurs
+                                            <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                        </a>
+                                        <div class="collapse" id="pagesCollapseAdmin" data-parent="#accordionSidenavPagesMenu">
+                                            <nav class="sidenav-menu-nested nav">
+                                                <a class="nav-link collapsed" href="{{ path('add_administrators') }}">
+                                                    Ajouter des Administrateurs
+                                                    <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                                </a>
+                                                <a class="nav-link collapsed" href="{{ path('add_supers_administrators') }}">
+                                                    Ajouter des Supers Administrateurs
+                                                    <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                                </a>
+                                                <a class="nav-link collapsed" href="{{ path('administrators_index') }}">
+                                                    Liste des Administrateurs
+                                                    <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                                </a>
+                                            </nav>
+                                        </div>
+                                    {% endif %}
+                                    <a class="nav-link collapsed" href="{{ path('users_index') }}">
+                                        <div class="nav-link-icon"><i class="fas fa-user"></i></div>
+                                        Tous les utilisateurs
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                </nav>
+                            </div>
+
+                            {# (Examens) #}
+                            <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#examensollapse" aria-expanded="false" aria-controls="examensollapse">
+                                <div class="nav-link-icon"><i class="fas fa-check-square"></i></div>Examens
+                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="examensollapse" data-parent="#accordionSidenav">
+                                <nav class="sidenav-menu-nested nav">
+                                    <a class="nav-link collapsed" href="{{ path('add_exams') }}">
+                                        Ajouter des examens
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <a class="nav-link collapsed" href="{{ path('exams_index') }}">
+                                        Liste des examens
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                </nav>
+                            </div>
+
+                            {# (Devoirs) #}
+                            <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#devoirscollapse" aria-expanded="false" aria-controls="devoirscollapse">
+                                <div class="nav-link-icon"><i class="fas fa-check-square"></i></div>Devoirs
+                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="devoirscollapse" data-parent="#accordionSidenav">
+                                <nav class="sidenav-menu-nested nav">
+                                    <a class="nav-link collapsed" href="{{ path('admin_add_evaluations') }}">
+                                        Ajouter des devoirs
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <a class="nav-link collapsed" href="{{ path('admin_evaluations_index') }}">
+                                        Liste des devoirs
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                </nav>
+                            </div>
+
+                            {# (Pédagogie) #}
+                            <a class="nav-link collapsed" href="javascript:void(0);"
+                             data-toggle="collapse" data-target="#collapsepedagogie" aria-expanded="false" aria-controls="collapserepedagogie">
+                                <div class="nav-link-icon"><i class="fas fa-book"></i></div>Paramètres
+                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsepedagogie" data-parent="#accordionSidenav">
+                                <nav class="sidenav-menu-nested nav">
+                                    <a class="nav-link collapsed" href="{{ path('levels_index') }}">
+                                        Niveaux
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <a class="nav-link collapsed" href="{{ path('specialties_index') }}">
+                                        Spécialités
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <a class="nav-link collapsed" href="{{ path('matters_index') }}">
+                                        Matières (ECUE)
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <a class="nav-link collapsed" href="{{ path('matters_levels_specialties_index') }}">
+                                        Liaisons (Niveaux - Spécialités - Matières - Sémestres)
+                                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                </nav>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Sidenav Footer-->
+                    <div class="sidenav-footer">
+                        <div class="sidenav-footer-content">
+                            <div class="sidenav-footer-subtitle">Connecté en tant que:</div>
+                            <div class="sidenav-footer-title"><small>{{app.user.profile}}</small></div>
+                        </div>
+                    </div>
+                </nav>
+            </div>

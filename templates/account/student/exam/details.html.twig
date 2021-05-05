@@ -1,0 +1,80 @@
+{% extends 'base/base.html.twig' %}
+{% block title %}{{exam.session}} - {{exam.semester.slug}}{% endblock %}
+{% block body %}
+    <div class="container-fluid mt-3">
+        {% if app.user %}
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent">
+                    <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ path('account') }}"><i class="fas fa-home"></i></a></li>
+                    <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ path('student_semesters_index') }}">Inscriptions</a></li>
+                    <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ path('students_registrations_exams', {'id': registration.id}) }}">{{exam.semester.slug}}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{exam.session}}</li>
+                </ol>
+            </nav>
+            {% if app.user.profile == "ETUDIANT" %}
+                <div class="card mb-4 card-header-actions h-100">
+                    <div class="card-header text-white text-uppercase" style="background-color:#800080;">
+                        <span class="text-uppercase bg-success text-white font-weight-bold p-2">
+                        <i class="fas fa-ellipsis-h"></i>&ensp;EXAMENS - {{exam.session}} / {{exam.semester.slug}}
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="datatable">
+                            <table class="table table-striped table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                                <thead class="bg-secondary">
+                                    <tr class="text-uppercase font-weight-bold text-center text-white">
+                                        <th class="align-middle">Matière (ECUE)</th>
+                                        <th class="align-middle">Session</th>
+                                        <th class="align-middle">Niveau</th>
+                                        <th class="align-middle">Spécialité</th>
+                                        <th class="align-middle">Archivée</th>
+                                        <th class="align-middle">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for examination in examinations %}
+                                        <tr>
+                                            <td class="align-middle">{{ examination.matter.wording }}</td>
+                                            <td class="text-center align-middle">{{ examination.exam.session }}</td>
+                                            <td class="text-center align-middle">{{ examination.exam.level.wording }}</td>
+                                            <td class="align-middle">{{ examination.exam.specialty.wording }}</td>
+                                            <td class="text-center align-middle">
+                                                {% if examination.exam.semester.academicYear.archived == false or examination.exam.semester.academicYear.archived == null %}
+                                                    <i class="fas fa-toggle-off fa-2x"></i>
+                                                {% elseif examination.exam.semester.academicYear.archived == true %}
+                                                    <i class="fas fa-toggle-on fa-2x text-success"></i>
+                                                {% else %}
+                                                    {% if examination.exam.semester.archived == false or examination.exam.semester.archived == null %}
+                                                        <i class="fas fa-toggle-off fa-2x"></i>
+                                                    {% elseif examination.exam.semester.archived == true %}
+                                                        <i class="fas fa-toggle-on fa-2x text-success"></i>
+                                                    {% else %}
+                                                        {% if examination.exam.archived == false or examination.exam.archived == null %}
+                                                            <i class="fas fa-toggle-off fa-2x"></i>
+                                                        {% else %}
+                                                            <i class="fas fa-toggle-on fa-2x text-success"></i>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                <a href="{{ path('show_examination_and_do_claims', {'slug': examination.slug}) }}" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-comments"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <a href="{{ path('app_login') }}" class="btn btn-success">
+                <i class="fas fa-hand-point-right"></i>&ensp;Se Connecter
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}
+

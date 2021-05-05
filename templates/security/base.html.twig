@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <link rel="icon" type="image/x-icon" href="{{asset('assets/medias/images/uvci.ico')}}"/>
+        <title>UVCI e-Reclamations | {% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{asset('assets/ui/css/bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/ui/css/fontawesome/all.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/ui/css/app.css')}}">
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        {% for label, messages in app.flashes %}
+            <div class="container">
+                <div class="alert alert-{{ label }}">
+                    {% for message in messages %}
+                        <p>{{ message | raw }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        {% block body %}{% endblock %}
+        <script src="{{asset('assets/ui/js/jquery-3.5.1.slim.min.js')}}"></script>
+        <script src="{{asset('assets/ui/js/popper.min.js')}}"></script>
+        <script src="{{asset('assets/ui/js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('assets/ui/js/fontawesome/all.min.js')}}"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

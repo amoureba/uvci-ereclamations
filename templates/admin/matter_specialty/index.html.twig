@@ -1,0 +1,88 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Liaisons (Spécialités - Niveaux - Matières){% endblock %}
+{% block body %}
+    <div id="layoutSidenav_content">
+        <main>
+            <header class="page-header page-header-dark bg-header pb-10">
+                <div class="container">
+                    <div class="page-header-content pt-4">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto mt-4">
+                                <nav aria-label="breadcrumb" class="bg-transparent text-white">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="{{ path('admin') }}">
+                                            <i class="fas fa-home" style="color:white;"></i></a>
+                                        </li>
+                                        <li class="breadcrumb-item active text-white" aria-current="page">
+                                            Liste des Liaisons (Spécialités - Niveaux - Matières)
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Main page content-->
+            <div class="container mt-n10">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <ul class="nav">
+                            <li class="nav-item m-2">
+                                <span class="text-uppercase bg-success text-white font-weight-bold p-2">
+                                    <i class="fas fa-link"></i>&ensp;Liste des Liaisons (Spécialités - Niveaux - Matières)
+                                </span>
+                            </li>
+                            <li class="nav-item ml-auto m-2">
+                                <a class="nav-link btn btn-purple" href="{{ path('add_matter_level_specialty') }}">
+                                    <i class="fas fa-plus"></i>&ensp;AJOUTER
+                                </a>
+                            </li>
+                            <li class="nav-item m-2">
+                                <a class="nav-link btn btn-purple" href="{{ path('matter_level_specialty_import') }}">
+                                    <i class="fas fa-upload"></i>&ensp;AJOUTER PAR IMPORTATION
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="datatable">
+                            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                                <thead class="bg-secondary">
+                                    <tr class="text-uppercase font-weight-bold text-center text-white">
+                                        <th class="align-middle">Niveaux</th>
+                                        <th class="align-middle">Spécialités</th>
+                                        <th class="align-middle">Matières</th>
+                                        <th class="align-middle">Sémestre</th>
+                                        <th class="align-middle">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for matterSpecialty in mattersSpecialties %}
+                                    <tr>
+                                        <td class="text-center align-middle">{{ matterSpecialty.level }}</td>
+                                        <td class="align-middle">{{ matterSpecialty.specialty }}</td>
+                                        <td class="align-middle">{{ matterSpecialty.matter }}</td>
+                                        <td class="text-center align-middle">{{ matterSpecialty.semester }}</td>
+                                        <td class="text-center align-middle">
+                                            <a href="{{ path('edit_matter_level_specialty', {'id' : matterSpecialty.level.id, 'specialty_id' : matterSpecialty.specialty.id, 'matter_id' : matterSpecialty.matter.id}) }} " class="btn btn-success btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{{ path('delete_bond_matter_level_specialty', {'id' : matterSpecialty.level.id, 'specialty_id' : matterSpecialty.specialty.id, 'matter_id' : matterSpecialty.matter.id}) }} " class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer mt-auto footer-light">
+            {% include "admin/footer.html.twig" %}
+        </footer>
+    </div>
+{% endblock %}

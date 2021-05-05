@@ -1,0 +1,302 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}{{ user.fullName|title}} - Liste des réclamations{% endblock %}
+{% block body %}
+    <div id="layoutSidenav_content">
+        <main>
+            <header class="page-header page-header-dark bg-header pb-10">
+                <div class="container">
+                    <div class="page-header-content pt-4">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto mt-4">
+                                <nav aria-label="breadcrumb" class="bg-transparent text-white">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ path('admin') }}">
+                                            <i class="fas fa-home" style="color:white;"></i></a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a class="text-decoration-none" href="{{ path('students_index') }}">
+                                                Liste des étudiants
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active text-white" aria-current="page">
+                                            {{ user.fullName }}
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Main page content-->
+            <div class="container mt-n10">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <ul class="nav">
+                            <li class="nav-item m-2">
+                                <span class="text-uppercase bg-success text-white font-weight-bold p-2">
+                                    {{claims|length}} Réclamation(s) trouvée(s)
+                                </span>
+                            </li>
+                            <li class="nav-item ml-auto m-2">
+                                <a class="nav-link btn btn-danger" href="{{ path('students_index') }}">
+                                    <i class="fas fa-reply"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="nav nav-tabs mt-2">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#evaluations">DEVOIRS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#exams">EXAMENS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#others">AUTRES</a>
+                        </li>
+                        {#<li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#technics">TECHNIQUES</a>
+                        </li>#}
+                    </ul>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane container active" id="evaluations">
+                                <div class="datatable">
+                                    <table data-order='[[ 0, "desc" ]]' class="display table table-bordered table-hover" id="" width="100%" cellspacing="0">
+                                        <thead class="bg-secondary">
+                                            <tr class="text-uppercase font-weight-bold text-center text-white">
+                                                <th class="align-middle">#ID</th>
+                                                <th class="align-middle">Date</th>
+                                                <th class="align-middle">Semestre</th>
+                                                <th class="align-middle">Matière</th>
+                                                <th class="align-middle">Devoir</th>
+                                                <th class="align-middle">Libellé réclamation</th>
+                                                <th class="align-middle">Réponses</th>
+                                                <th class="align-middle">Archivée</th>
+                                                <th class="align-middle">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for evaluation_claim in evaluations %}
+                                            <tr>
+                                                <td class="align-middle text-center">{{ evaluation_claim.id }}</td>
+                                                <td class="align-middle">{{ evaluation_claim.createdAt|format_datetime('short', 'short', locale='fr') }}</td>
+                                                
+                                                <td class="align-middle">{{ evaluation_claim.evaluation.semester.slug }}</td>
+                                                <td class="align-middle">{{ evaluation_claim.evaluation.matter.wording }}</td>
+                                                <td class="align-middle">{{ evaluation_claim.evaluation.wording }}</td>
+
+                                                <td class="align-middle">{{ evaluation_claim.wording }}</td>
+                                                <td class="align-middle text-center">
+                                                    {% set nbAns = evaluation_claim.answers|length %}
+                                                    {% if nbAns != 0 %}
+                                                        <span class="badge badge-pill badge-success pl-2 pr-2">{{nbAns}}</span>
+                                                    {% else %}
+                                                        <span class="badge badge-pill badge-danger pl-2 pr-2">{{nbAns}}</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    {% if evaluation_claim.archived == false or evaluation_claim.archived == null %}
+                                                        <i class="fas fa-toggle-off fa-2x"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-toggle-on fa-2x text-success"></i>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a href="{{ path('students_evaluations_claims', {'id' : evaluation_claim.evaluation.id, 'claim_id' : evaluation_claim.id}) }}" class="btn btn-success btn-sm m-1">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a  href="{{ path('admin_update_students_evaluations_claims', {'id': evaluation_claim.id}) }}" class="btn btn-primary btn-sm m-1">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="{{ path('admin_delete_students_claims', {'id': evaluation_claim.id}) }}" class="btn btn-danger btn-sm m-1">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane container" id="exams">
+                                <div class="datatable">
+                                    <table data-order='[[ 0, "desc" ]]' class="display table table-bordered table-hover" id="" width="100%" cellspacing="0">
+                                        <thead class="bg-secondary">
+                                            <tr class="text-uppercase font-weight-bold text-center text-white">
+                                                <th class="align-middle">#ID</th>
+                                                <th class="align-middle">Date</th>
+                                                <th class="align-middle">Session</th>
+                                                <th class="align-middle">Sémestre</th>
+                                                <th class="align-middle">Epreuve</th>
+                                                <th class="align-middle">Libellé réclamation</th>
+                                                <th class="align-middle">Réponses</th>
+                                                <th class="align-middle">Archivée</th>
+                                                <th class="align-middle">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for examination_claim in exams %}
+                                            <tr>
+                                                <td class="align-middle text-center">{{ examination_claim.id }}</td>
+                                                <td class="align-middle">{{ examination_claim.createdAt|format_datetime('short', 'short', locale='fr') }}</td>
+                                                
+                                                <td class="text-center align-middle">{{ examination_claim.examination.exam.session }}</div>
+                                                <td class="text-center align-middle">{{ examination_claim.examination.exam.semester.slug }}</td>
+                                                <td class="align-middle">{{ examination_claim.examination.matter.wording }}</td>
+                                                
+                                                <td class="align-middle">{{ examination_claim.wording }}</td>
+                                                <td class="align-middle text-center">
+                                                    {% set nbAns = examination_claim.answers|length %}
+                                                    {% if nbAns != 0 %}
+                                                        <span class="badge badge-pill badge-success pl-2 pr-2">{{nbAns}}</span>
+                                                    {% else %}
+                                                        <span class="badge badge-pill badge-danger pl-2 pr-2">{{nbAns}}</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    {% if examination_claim.archived == false or examination_claim.archived == null %}
+                                                        <i class="fas fa-toggle-off fa-2x"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-toggle-on fa-2x text-success"></i>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a href="{{ path('admin_view_students_examination_claims', {'id' : examination_claim.examination.id, 'claim_id' : examination_claim.id}) }}" class="btn btn-success btn-sm m-1">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a  href="{{ path('admin_update_students_examination_claims', {'id': examination_claim.id}) }}" class="btn btn-primary btn-sm m-1">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="{{ path('admin_delete_students_claims', {'id': examination_claim.id}) }}" class="btn btn-danger btn-sm m-1">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a> 
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane container" id="others">
+                                <div class="datatable">
+                                    <table data-order='[[ 0, "desc" ]]' class="display table table-bordered table-hover" id="" width="100%" cellspacing="0">
+                                        <thead class="bg-secondary">
+                                            <tr class="text-uppercase font-weight-bold text-center text-white">
+                                                <th class="align-middle">#ID</th>
+                                                <th class="align-middle">Date</th>
+                                                <th class="align-middle">Libellé réclamation</th>
+                                                <th class="align-middle">Réponses</th>
+                                                <th class="align-middle">Archivée</th>
+                                                <th class="align-middle">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for other in others %}
+                                            <tr>
+                                                <td class="align-middle text-center">{{ other.id }}</td>
+                                                <td class="align-middle">{{ other.createdAt|format_datetime('short', 'short', locale='fr') }}</td>
+                                                <td class="align-middle">{{ other.wording }}</td>
+                                                <td class="align-middle text-center">
+                                                    {% set nbAns = other.answers|length %}
+                                                    {% if nbAns != 0 %}
+                                                        <span class="badge badge-pill badge-success pl-2 pr-2">{{nbAns}}</span>
+                                                    {% else %}
+                                                        <span class="badge badge-pill badge-danger pl-2 pr-2">{{nbAns}}</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    {% if other.archived == false or other.archived == null %}
+                                                        <i class="fas fa-toggle-off fa-2x"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-toggle-on fa-2x text-success"></i>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a href="{{ path('admin_students_others_claims', {'id' : other.id}) }}" class="btn btn-success btn-sm m-1">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a  href="{{ path('admin_update_students_others_claims', {'id': other.id}) }}" class="btn btn-primary btn-sm m-1">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="{{ path('admin_delete_students_claims', {'id': other.id}) }}" class="btn btn-danger btn-sm m-1">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {#<div class="tab-pane container" id="technics">
+                                <div class="datatable">
+                                    <table data-order='[[ 0, "desc" ]]' class="display table table-bordered table-hover" id="" width="100%" cellspacing="0">
+                                        <thead class="bg-secondary">
+                                            <tr class="text-uppercase font-weight-bold text-center text-white">
+                                                <th class="align-middle">#ID</th>
+                                                <th class="align-middle">Date</th>
+                                                <th class="align-middle">Libellé réclamation</th>
+                                                <th class="align-middle">Réponses</th>
+                                                <th class="align-middle">Archivée</th>
+                                                <th class="align-middle">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for technic_claim in technics %}
+                                            <tr>
+                                                <td class="align-middle text-center">{{ technic_claim.id }}</td>
+                                                <td class="align-middle">{{ technic_claim.createdAt|format_datetime('short', 'short', locale='fr') }}</td>
+                                                <td class="align-middle">{{ technic_claim.wording }}</td>
+                                                <td class="align-middle text-center">
+                                                    {% set nbAns = technic_claim.answers|length %}
+                                                    {% if nbAns != 0 %}
+                                                        <span class="badge badge-pill badge-success pl-2 pr-2">{{nbAns}}</span>
+                                                    {% else %}
+                                                        <span class="badge badge-pill badge-danger pl-2 pr-2">{{nbAns}}</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    {% if technic_claim.archived == false or technic_claim.archived == null %}
+                                                        <i class="fas fa-toggle-off fa-2x"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-toggle-on fa-2x text-success"></i>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a href="{{ path('admin_students_others_claims', {'id' : technic_claim.id}) }}" class="btn btn-success btn-sm">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a  href="{{ path('admin_update_students_others_claims', {'id': technic_claim.id}) }}" class="btn btn-primary btn-sm">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="{{ path('admin_delete_students_claims', {'id': technic_claim.id}) }}" class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        <footer class="footer mt-auto footer-light">
+            {% include "admin/footer.html.twig" %}
+        </footer>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $('table.display').DataTable();
+        } );
+    </script>
+{% endblock %}

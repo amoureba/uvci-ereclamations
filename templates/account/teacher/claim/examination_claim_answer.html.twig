@@ -1,0 +1,84 @@
+{% extends 'base/base.html.twig' %}
+{% block title %}Réclamation - {{claim.id}}{% endblock %}
+{% block body %}
+<div class="container-fluid mt-3">
+    <div class="container">
+        {% if app.user %}
+            {% if app.user.profile == "ENSEIGNANT" %}
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent">
+                        <li class="breadcrumb-item">
+                            <a class="text-decoration-none" class="text-decoration-none" href="{{ path('account') }}">
+                                <i class="fas fa-home"></i>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a class="text-decoration-none" class="text-decoration-none" href="{{ path('teacher_ecue') }}">
+                                ECUE
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a class="text-decoration-none" href="{{ path('teachermatters_exams_index', {'id': claim.examination.matter.id}) }}">
+                                {{claim.examination.matter.wording}}
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a class="text-decoration-none" href="{{ path('teachermatters_examination_claims', {'id': claim.examination.exam.id, 'matter_id': claim.examination.matter.id}) }}">
+                                {{ claim.examination.exam.session }} > {{ claim.examination.exam.semester }}
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Réclamation #{{claim.id}}
+                        </li>
+                    </ol>
+                </nav>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <span class="text-uppercase bg-success text-white font-weight-bold p-2">
+                             {{ claim.examination.exam.session }} / {{ claim.examination.matter.wording }} / {{ claim.examination.exam.semester }}
+                        </span><br>
+                    </div>
+                    <div class="card-body">
+                        <span class="text-uppercase bg-purple text-white font-weight-bold p-1">
+                            Réclamation
+                        </span>
+                        <hr class="mt-1">
+                        <h3 class="font-weight-bold mb-2"><strong>{{ claim.wording }}</strong></h3>
+                        <p><i class="bi-person"></i>&nbsp;<a>{{claim.author.fullName|title}} ({{claim.author.email}})</a>, <i class="bi-clock"></i>&nbsp;{{ claim.createdAt|format_datetime('short', 'short', locale='fr') }}</p>
+                        <div class="row">
+                            <div class="col-xl-6 col-md-12">
+                                <img class="img-fluid" src="{{claim.capturePath}}" alt="{{ claim.wording }}">
+                            </div>
+                            <div class="col-xl-6 col-md-12">
+                                <p class="mt-2">{{ claim.content }}</p>
+                            </div>
+                        </div>
+                        <hr class="my-2">
+                        <span class="text-uppercase bg-purple text-white font-weight-bold p-1">
+                            Votre reponse
+                        </span>
+                        <div class="row">
+                            <div class="col m-2">
+                                {{ form_start(form) }}
+                                    {{ form_widget(form) }}
+                                    <button type="submit" class="btn btn-success">
+                                        Enregistrer&nbsp;<i class="fas fa-check-circle"></i>
+                                    </button>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <a href="{{ path('app_login') }}" class="btn btn-success">
+                <i class="fas fa-hand-point-right"></i>&ensp;Se Connecter
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{asset('assets/ui/js/app.js')}}"></script>
+{% endblock %}

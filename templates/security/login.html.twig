@@ -1,0 +1,59 @@
+{% extends 'security/base.html.twig' %}
+{% block title %}Connexion !{% endblock %}
+{% block body %}
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+</style>
+<section>
+    <div class="imgBx">
+        <img src="{{asset('assets/medias/images/homebackgroung.jpg')}}">
+    </div>
+    <div class="contentBx">
+        <div class="formBx">
+            <p>Bienvenue sur UVCI-e-Reclamations</p>
+            <h2><i class="fas fa-lock"></i> Connectez-vous !</h2>
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+                {#<label for="inputEmail">Email</label>#}
+                <div class="inputBx">
+                    <span>Login</span>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" required autofocus>
+                </div>
+                {#<label for="inputPassword">Password</label>#}
+                <div class="inputBx">
+                    <span>Mot de passe</span>
+                    <input type="password" name="password" id="inputPassword" required>
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                {#See https://symfony.com/doc/current/security/remember_me.html#}
+                <div class="checkbox remember">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                    </label>
+                </div>
+                <div class="inputBx">
+                    <input type="submit" value="Se Connecter" name="button">
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

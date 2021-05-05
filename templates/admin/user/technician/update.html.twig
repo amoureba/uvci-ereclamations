@@ -1,0 +1,55 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Détails du techinicien{% endblock %}
+{% block body %}
+    <div id="layoutSidenav_content">
+        <main>
+            <header class="page-header page-header-dark bg-header pb-10">
+                <div class="container">
+                    <div class="page-header-content pt-4">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto mt-4">
+                                <nav aria-label="breadcrumb" class="bg-transparent text-white">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="{{ path('admin') }}">
+                                            <i class="fas fa-home" style="color:white;"></i></a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a href="{{ path('technicians_index') }}">
+                                                Liste des techniciens
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active text-white" aria-current="page">
+                                            {{ user.fullName }}
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Main page content-->
+            <div class="container mt-n10">
+                <div class="row justify-content-center">
+                    <div class="col-xl-10 col-md-10 mb-4">
+                        <div class="card card-header-actions h-100">
+                            <div class="card-header">
+                                <span class="text-uppercase bg-success text-white font-weight-bold p-2 mr-5">Détails du techinicien</span>
+                                <a class="btn btn-danger" href="{{ path('technicians_index')}} "><i class="fas fa-reply"></i></a>
+                            </div>
+                            <div class="card-body">
+                                {{ form_start(form) }}
+                                {{ form_widget(form) }}
+                                <button type="submit" class="btn btn-success">Enregistrer les modifications&ensp;<i class="fas fa-check"></i></button>
+                                {{ form_end(form) }} 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer mt-auto footer-light">
+            {% include "admin/footer.html.twig" %}
+        </footer>
+    </div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base/base.html.twig' %}
+{% block title %}Editer une Réclamation{% endblock %}
+{% block body %}
+    <div class="container mt-3">
+        {% if app.user %}
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent">
+                    <li class="breadcrumb-item"><a href="{{ path('account') }}"><i class="fas fa-home"></i></a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Réclamation</li>
+                </ol>
+            </nav>
+            {% if app.user.profile == "ETUDIANT" %}
+                <div class="row justify-content-center">
+                    <div class="col-xl-6 mb-4">
+                        <div class="card card-header-actions h-100">
+                            <div class="card-header text-white" style="background-color:#800080;">
+                                <span class="text-uppercase">Votre Réclamation</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="small">Comment choisir la catégorie ? =></span> 
+                                    <button type="button" class="btn btn-outline-purple btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                    <i class="bi bi-info-circle-fill"></i>
+                                    </button>
+                                </p>
+                                {{ form_start(form) }}
+                                    {{ form_row(form.category) }}
+                                    {{ form_row(form.wording) }}
+                                    {{ form_row(form.content) }}
+                                    {{ form_row(form.capture) }}
+                                    <button type="submit" class="btn btn-success mt-2">Enregistrer les modifications&ensp;<i class="fas fa-check"></i></button>
+                                {{ form_end(form) }}
+                                {# Modal #}
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Catégorie</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Gestion</p>
+                                            <p>Technique</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {# End Modal #}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <a href="{{ path('app_login') }}" class="btn btn-success">
+                <i class="fas fa-hand-point-right"></i>&ensp;Se Connecter
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(".custom-file-input").on("change", function(){
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <link rel="icon" type="image/x-icon" href="{{asset('assets/medias/images/uvci.ico')}}"/>
+
+        <title>UVCI e-Reclamations | {% block title %}{% endblock %}</title>
+
+        <link rel="stylesheet" href="{{asset('assets/ui/css/bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/ui/css/fontawesome/all.css')}}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="{{asset('assets/ui/css/styles.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/ui/css/app.css')}}">
+        {# --DateTables-- #}
+        <link rel="stylesheet" href="{{asset('assets/datatables/datatables.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/datatables/pack/css/dataTables.bootstrap4.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/datatables/pack/css/dataTables.jqueryui.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/datatables/pack/css/jquery.dataTables.min.css')}}">
+        {# -- -- #}
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+    
+        {% include "base/header.html.twig" %}
+
+        {#{% for label, messages in app.flashes %}
+            <div class="container">
+                <div class="alert alert-{{ label }}">
+                    {% for message in messages %}
+                        <p>{{ message | raw }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}#}
+
+        {# toast #}
+        {% for label, messages in app.flashes %}
+                <div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
+                    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+                        <div class="toast-header text-white" style="background-color:#800080;">
+                            <strong class="mr-auto">UVCI e-Reclamations</strong>
+                            <button type="button" class="ml-2 mb-1 text-white close" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="toast-body text-white bg-{{ label }}">
+                            {% for message in messages %}
+                                <p>{{ message | raw }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        {% block body %}{% endblock %}
+
+        {% include "base/footer.html.twig" %}
+
+        <script src="{{asset('assets/ui/js/jquery-3.5.1.min.js')}}"></script>
+        <script src="{{asset('assets/ui/js/popper.min.js')}}"></script>
+        <script src="{{asset('assets/ui/js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('assets/ui/js/fontawesome/all.min.js')}}"></script>
+        {# --DateTables-- #}
+        <script src="{{asset('assets/datatables/datatables.min.js')}}"></script>
+        <script src="{{asset('assets/datatables/pack/js/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{asset('assets/datatables/pack/js/dataTables.bootstrap4.min.js')}}"></script>
+        <script src="{{asset('assets/datatables/pack/js/dataTables.jqueryui.min.js')}}"></script>
+        <script src="{{asset('assets/datatables/pack/js/jquery.dataTables.min.js')}}"></script>
+        <script src="{{asset('assets/datatables/call.dataTables.jquery.js')}}"></script>
+        {# -- -- #}
+        {# jQuery Modal => https://jquerymodal.com/ #}
+
+        {% block javascripts %}{% endblock %}
+
+        <script>
+            $(document).ready(function(){
+            $('.toast').toast('show');
+            });
+        </script>
+    </body>
+</html>

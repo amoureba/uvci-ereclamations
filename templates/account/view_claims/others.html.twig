@@ -1,0 +1,81 @@
+{% extends 'base/base.html.twig' %}
+{% block title %}Réclamation - {{ other_claim.id }}{% endblock %}
+{% block body %}
+<div class="container-fluid mt-3">
+    {% if app.user %}
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent">
+                    <li class="breadcrumb-item">
+                        <a class="btn btn-danger" href="{{ path('account') }}"><i class="bi-reply-fill" style="color:white;"></i></a>
+                    </li>
+                </ol>
+            </nav>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <span class="text-uppercase bg-success text-white font-weight-bold p-2">
+                            Réclamation / {{ other_claim.category }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <h3 class="font-weight-bold m-2"><strong>{{ other_claim.wording }}</strong></h3>
+                    <p class="m-2"><i class="bi-person"></i>&nbsp;<a>{{other_claim.author.fullName|title}} ({{other_claim.author.email}})</a>, <i class="bi-clock"></i>&nbsp;{{ other_claim.createdAt|format_datetime('short', 'short', locale='fr') }}</p>
+                    <div class="row">
+                        <div class="col-xl-6 col-md-12">
+                            <img class="img-fluid" src="{{other_claim.capturePath}}" alt="{{ other_claim.wording }}">
+                        </div>
+                        <div class="col-xl-6 col-md-12">
+                            <p class="m-2">{{ other_claim.content }}</p>
+                        </div>
+                    </div>
+                    {% if app.user.profile != "ETUDIANT" %}
+                        <hr class="my-3">
+                        <h5 class="ml-2">
+                        <span class="text-uppercase bg-purple text-white font-weight-bold p-1">
+                            AJOUTER UNE REPONSE
+                        </span>
+                        </h5>
+                        <div class="row">
+                            <div class="col m-2">
+                                {{ form_start(form) }}
+                                    {{ form_widget(form) }}
+                                    <button type="submit" class="btn btn-success">
+                                        Enregistrer votre réponse&nbsp;<i class="fas fa-check-circle"></i>
+                                    </button>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {#<hr class="my-2">#}
+                    {% if other_claim.answers|length > 0 %}
+                        <hr class="my-2">
+                        <div class="container-fluid bg-gray-200">
+                            {% set answers = other_claim.answers %}
+                            <br><span class="bg-purple text-uppercase text-white font-weight-bold p-2">
+                                Réponses
+                            </span><br><br>
+                            {% for answer in answers %}
+                                <div class="row">
+                                    <div class="col m-2">
+                                        <p>{{ answer.content }}</p>
+                                        <p><i class="bi-person"></i>&nbsp;<a>{{answer.author.fullName|title}}</a>, <i class="bi-clock"></i>&nbsp;{{ answer.createdAt|format_datetime('short', 'short', locale='fr') }}</p>
+                                    </div>
+                                </div>
+                                <hr class="my-2">
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <a href="{{ path('app_login') }}" class="btn btn-success">
+            <i class="fas fa-hand-point-right"></i>&ensp;Se Connecter
+        </a>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{asset('assets/ui/js/app.js')}}"></script>
+{% endblock %}

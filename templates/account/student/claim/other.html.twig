@@ -1,0 +1,121 @@
+{% extends 'base/base.html.twig' %}
+{% block title %}Soumettre une Réclamation{% endblock %}
+{% block body %}
+    <div class="container mt-3">
+        {% if app.user %}
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent">
+                    <li class="breadcrumb-item"><a href="{{ path('account') }}"><i class="fas fa-home"></i></a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Réclamation</li>
+                </ol>
+            </nav>
+            {% if app.user.profile == "ETUDIANT" %}
+                <div class="row justify-content-center">
+                    <div class="col-xl-6 mb-4">
+                        <div class="card card-header-actions h-100">
+                            <div class="card-header text-white" style="background-color:#800080;">
+                                <span class="text-uppercase">Votre Réclamation</span>
+                            </div>
+                            <div class="card-body">
+                                {#<p> 
+                                    <button type="button" class="btn btn-purple btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                    Choisir la catégorie de la réclamation&ensp;<i class="fas fa-check"></i>
+                                    </button>
+                                </p>#}
+                                {{ form_start(form) }}
+                                    {#<div class="row">
+                                        <div class="col">
+                                            {{ form_row(form.category) }}
+                                        </div>
+                                        <div class="col">&ensp;</div>
+                                    </div>
+                                    {{ form_row(form.wording) }}
+                                    {{ form_row(form.content) }}
+                                    {{ form_row(form.capture) }}#}
+                                    {{ form_widget(form) }}
+                                    <button type="submit" class="btn btn-success mt-2">Enregistrer la réclamation&ensp;<i class="fas fa-check"></i></button>
+                                {{ form_end(form) }}
+                                {# Modal #}
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">
+                                                <span class="text-uppercase bg-success text-white font-weight-bold p-2">
+                                                    Catégorie</span></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="accordion" id="accordionCategory">
+                                                <div class="card">
+                                                    <div class="card-header" id="headingOne">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-link btn-block text-left text-uppercase text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                            Catégorie technique
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionCategory">
+                                                        <div class="card-body">
+                                                            <ul class="list-group list-group-flush">
+                                                                <li class="list-group-item">An item</li>
+                                                                <li class="list-group-item">A second item</li>
+                                                                <li class="list-group-item">A third item</li>
+                                                                <li class="list-group-item">A fourth item</li>
+                                                                <li class="list-group-item">And a fifth one</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-header" id="headingTwo">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-link btn-block text-left text-uppercase collapsed text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                            Catégorie gestion
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionCategory">
+                                                        <div class="card-body">
+                                                            <ul class="list-group list-group-flush">
+                                                                <li class="list-group-item">An item</li>
+                                                                <li class="list-group-item">A second item</li>
+                                                                <li class="list-group-item">A third item</li>
+                                                                <li class="list-group-item">A fourth item</li>
+                                                                <li class="list-group-item">And a fifth one</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <a href="{{ path('app_login') }}" class="btn btn-success">
+                <i class="fas fa-hand-point-right"></i>&ensp;Se Connecter
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(".custom-file-input").on("change", function(){
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+{% endblock %}

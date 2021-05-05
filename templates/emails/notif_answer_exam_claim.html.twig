@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>UVCI e-Reclamations | Notification</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        h1 {
+            background-color: #430243;
+            color: #ffffff;
+            padding: 30px 0 50px 0;
+            font-weight: normal;
+        }
+
+        hr {
+            border: none;
+            border-top: 3px solid #264459;
+            margin: 20px;
+        }
+
+        .container {
+            background-color: #fefefe;
+            width: 580px;
+            margin: 0 auto;
+        }
+
+        .bottom {
+            background-color: #efefee;
+        }
+
+        .block {
+            margin: 0;
+            padding: 10px 20px 20px 20px;
+        }
+
+        .logo {
+            width: 100%;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #430243;
+            color: #fefefe;
+            border: 1px solid #fff;
+            border-radius: 3px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .btn-green {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #04691d;
+            color: #fefefe;
+            border: 1px solid #fff;
+            border-radius: 3px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="body">
+        <div class="container">
+            <div class="header text-center">
+                <a href="{{ url('account') }}">
+                    <img src="https://campus.uvci.edu.ci/mooc/assets/images/logouvci2.png" class="logo" alt="Logo UVCI">
+                </a>
+            </div>
+            <div class="content">
+                <h1 class="text-center">Réponse à votre Réclamation<br>du {{claim_created_at|format_datetime('short', 'short', locale='fr')}}</h1>
+                <p class="block">
+                    Bonjour,<br>
+                    Une Réponse vient d'être postée sur la plateforme des réclamations concernant votre réclamation du {{claim_created_at|format_datetime('short', 'short', locale='fr')}} 
+                    portant sur : <strong>{{exam_session}} / {{examination_matter}} / {{exam_semester}}</strong>
+                </p>
+                <p class="block">
+                    <span class="btn">Détails de la Réponse</span>
+                </p>
+                <p class="block">
+                    <strong>Réponse :</strong><br>
+                    {{ answer_content }}
+                </p>
+            </div>
+            <div class="footer">
+                <p class="block text-center">
+                    <a href="{{ url('account') }}" class="btn-green">Se Connecter</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

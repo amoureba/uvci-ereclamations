@@ -1,0 +1,181 @@
+{% extends 'base/base.html.twig' %}
+{% block title %}Accueil{% endblock %}
+{% block body %}
+    <div class="container-fluid mt-3">
+        {% if app.user %}
+            {% if app.user.profile == "ENSEIGNANT" %}
+            {# ENSEIGNANT #}
+                <div class="card mb-4 card-header-actions h-100">
+                    <div class="card-header text-white" style="background-color:#800080;"> 
+                        <ul class="nav">
+                            <li class="nav-item m-2">
+                                <span class="text-uppercase bg-success text-white font-weight-bold p-2">
+                                    <i class="fas fa-ellipsis-h"></i>&ensp;Liste des Réclamations
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="nav nav-tabs text-uppercase font-weight-bold mt-2">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#dev">DEVOIRS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#exam">EXAMENS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#ecue">Matières (ECUE)</a>
+                        </li>
+                    </ul>
+
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane container active" id="dev">
+                                <div class="datatable">
+                                    <table data-order='[[ 0, "desc" ]]' class="display table table-striped table-bordered table-hover" id="" width="100%" cellspacing="0">
+                                        <thead class="bg-secondary">
+                                            <tr class="text-uppercase font-weight-bold text-center text-white">
+                                                <th class="align-middle">#ID</th>
+                                                <th class="align-middle">Date</th>
+                                                <th class="align-middle">Sémestre</th>
+                                                <th class="align-middle">Matière</th>
+                                                <th class="align-middle">Devoir</th>
+                                                <th class="align-middle">Libellé de la réclamation</th>
+                                                <th class="align-middle">Réponses</th>
+                                                <th class="align-middle">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for dev_claim in dev_claims %}
+                                            {% set teach_trv = 0 %}
+                                            {% for matter_usr in dev_claim.evaluation.matter.users %}
+                                                {% if matter_usr == app.user %}
+                                                    {% set teach_trv = 1 %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if teach_trv == 1 %}
+                                                <tr>
+                                                    <td class="text-center align-middle">{{ dev_claim.id }}</td>
+                                                    <td class="text-center align-middle">{{ dev_claim.createdAt|format_datetime('short', 'short', locale='fr') }}</td>
+                                                    <td class="text-center align-middle">{{ dev_claim.evaluation.semester.slug }}</td>
+                                                    <td class="text-center align-middle">{{ dev_claim.evaluation.matter.wording }}</td>
+                                                    <td class="text-center align-middle">{{ dev_claim.evaluation.wording }}</td>
+                                                    <td class="align-middle">{{ dev_claim.wording }}</td>
+                                                    <td class="text-center align-middle">
+                                                        {% set nbAns = dev_claim.answers|length %}
+                                                        {% if nbAns != 0 %}
+                                                            <span class="badge badge-pill badge-success pl-2 pr-2">{{nbAns}}</span>
+                                                        {% else %}
+                                                            <span class="badge badge-pill badge-danger pl-2 pr-2">{{nbAns}}</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-center align-middle">
+                                                        <a href="{{ path('account_evaluations_claims_view', {'id' : dev_claim.evaluation.id, 'claim_id' : dev_claim.id}) }}" class="btn btn-success btn-sm">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane container fade" id="exam">
+                                <div class="datatable">
+                                    <table data-order='[[ 0, "desc" ]]' class="display table table-striped order-column table-bordered table-hover" id="" width="100%" cellspacing="0">
+                                        <thead class="bg-secondary">
+                                            <tr class="text-uppercase font-weight-bold text-center text-white">
+                                                <th class="align-middle">#ID</th>
+                                                <th class="align-middle">Date</th>
+                                                <th class="align-middle">Session</th>
+                                                <th class="align-middle">Sémestre</th>
+                                                <th class="align-middle">Matière</th>
+                                                <th class="align-middle">Libellé de la réclamation</th>
+                                                <th class="align-middle">Réponses</th>
+                                                <th class="align-middle">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for exam_claim in exams_claims %}
+                                            {% set usr = 0 %}
+                                            {% for matter_user in exam_claim.examination.matter.users %}
+                                                {% if matter_user == app.user %}
+                                                    {% set usr = 1 %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if usr == 1 %}
+                                                <tr>
+                                                    <td class="text-center align-middle">{{ exam_claim.id }}</td>
+                                                    <td class="text-center align-middle">{{ exam_claim.createdAt|format_datetime('short', 'short', locale='fr') }}</td>
+                                                    <td class="text-center align-middle">{{ exam_claim.examination.exam.session }}</div>
+                                                    <td class="text-center align-middle">{{ exam_claim.examination.exam.semester.slug }}</td>
+                                                    <td class="align-middle">{{ exam_claim.examination.matter.wording }}</td>
+                                                    <td class="align-middle">{{ exam_claim.wording }}</td>
+                                                    <td class="text-center align-middle">
+                                                        {% set nbAns = exam_claim.answers|length %}
+                                                        {% if nbAns != 0 %}
+                                                            <span class="badge badge-pill badge-success pl-2 pr-2">{{nbAns}}</span>
+                                                        {% else %}
+                                                            <span class="badge badge-pill badge-danger pl-2 pr-2">{{nbAns}}</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-center align-middle">
+                                                        <a href="{{ path('account_examination_claims_view', {'id' : exam_claim.examination.id, 'claim_id' : exam_claim.id}) }}" class="btn btn-success btn-sm">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane container fade" id="ecue">
+                                <div class="datatable">
+                                    <table class="table display table-striped table-bordered table-hover" id="" width="100%" cellspacing="0">
+                                        <thead class="bg-secondary">
+                                            <tr class="text-uppercase font-weight-bold text-center text-white">
+                                                <th class="align-middle">Libellé</th>
+                                                <th class="align-middle">Devoirs</th>
+                                                <th class="align-middle">Examens</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for matter in matters %}
+                                            <tr>
+                                                <td class="align-middle text-uppercase">{{ matter.wording }}</td>
+                                                <td class="text-center align-middle">
+                                                    <a href="{{ path('teachermatters_schools_tasks_index', {'id': matter.id}) }}" class="btn btn-purple btn-sm">Afficher les devoirs&ensp;<i class="fas fa-check-circle"></i></a>
+                                                </td>
+                                                <td class="text-center align-middle">
+                                                    <a href="{{ path('teachermatters_exams_index', {'id': matter.id}) }}" class="btn btn-success btn-sm">Afficher les examens&ensp;<i class="fas fa-check-circle"></i></a>
+                                                </div>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>     
+            {# FIN ETUDIANT #}
+            {% endif %}
+        {% else %}
+            <a href="{{ path('app_login') }}" class="btn btn-success">
+                <i class="fas fa-hand-point-right"></i>&ensp;Se Connecter
+            </a>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $('table.display').DataTable();
+        } );
+    </script>
+{% endblock %}

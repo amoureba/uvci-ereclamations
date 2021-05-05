@@ -1,0 +1,42 @@
+<nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand" href="{{ path('admin') }}">UVCI e-Reclamations</a>
+            <!-- Sidenav Toggle Button-->
+            <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle"><i data-feather="menu"></i></button>
+            <!-- Navbar Items-->
+            <ul class="navbar-nav align-items-center ml-auto">
+                <!-- User Dropdown-->
+                <li class="nav-item dropdown no-caret mr-3 mr-lg-0 dropdown-user">
+                    <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if app.user.avatar is empty %}
+                            <i class="fas fa-user-circle"></i>
+                        {% else %}
+                            <img src="{{app.user.avatarPath}}" class="avatar avatar-mini" alt="Avatar">
+                        {% endif %}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
+                        <h6 class="dropdown-header d-flex align-items-center">
+                            <!--<i class="fas fa-user-circle"></i>-->
+                            <div class="dropdown-user-details">
+                                <div class="dropdown-user-details-name m-2">{{ app.user.fullName }}</div>
+                                <div class="dropdown-user-details-email m-2">{{ app.user.email }}</div>
+                            </div>
+                        </h6>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('update_admin_account') }}">
+                            <div class="dropdown-item-icon"><i data-feather="settings"></i></div>
+                            Afficher votre Profil
+                        </a>
+                        <a class="dropdown-item" href="{{ path('update_admin_password') }}">
+                            <div class="dropdown-item-icon"><i data-feather="lock"></i></div>
+                            Modifier votre mot de  passe
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('app_logout') }}">
+                            <div class="dropdown-item-icon"><i data-feather="log-out"></i></div>
+                            Déconnexion
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>

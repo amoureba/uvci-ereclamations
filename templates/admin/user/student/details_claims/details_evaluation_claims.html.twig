@@ -1,0 +1,101 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Réclamation - {{evaluation_claim.id}}{% endblock %}
+{% block body %}
+    <div id="layoutSidenav_content">
+        <main>
+            <header class="page-header page-header-dark bg-header pb-10">
+                <div class="container">
+                    <div class="page-header-content pt-4">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto mt-4">
+                                <nav aria-label="breadcrumb" class="bg-transparent text-white">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ path('admin') }}">
+                                            <i class="fas fa-home" style="color:white;"></i></a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a class="text-decoration-none" href="{{ path('students_index') }}">
+                                                Liste des étudiants
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item text-white" aria-current="page">
+                                            <a class="text-decoration-none" href="{{ path('show_students_claims', {'id': evaluation_claim.author.id}) }}">
+                                                {{ evaluation_claim.author.fullName }}
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active text-white" aria-current="page">Reclamation#{{evaluation_claim.id}}</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Main page content-->
+            <div class="container mt-n10">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <span class="text-uppercase bg-success text-white font-weight-bold p-2">
+                             {{ evaluation.wording }} / {{ evaluation.matter.wording }} / {{ evaluation.semester }}
+                        </span>
+                        <br><br>{{ evaluation.description }}
+                    </div>
+                    <div class="card-body">
+                        <span class="text-uppercase bg-purple text-white font-weight-bold p-1">
+                            Réclamation
+                        </span>
+                        <hr class="mt-2">
+                        <h3 class="font-weight-bold m-2"><strong>{{ evaluation_claim.wording }}</strong></h3>
+                        <p class="mb-2 ml-2"><i class="bi-person"></i>&nbsp;<a>{{evaluation_claim.author.fullName|title}} ({{evaluation_claim.author.email}})</a>, <i class="bi-clock"></i>&nbsp;{{ evaluation_claim.createdAt|format_datetime('short', 'short', locale='fr') }}</p>
+                        <div class="row">
+                            <div class="col-xl-6 col-md-12">
+                                <img class="img-fluid" src="{{evaluation_claim.capturePath}}" alt="{{ evaluation_claim.wording }}">
+                            </div>
+                            <div class="col-xl-6 col-md-12">
+                                <p class="m-2">{{ evaluation_claim.content }}</p>
+                            </div>
+                        </div>
+                        <hr class="my-3">
+                        <h5 class="ml-2">
+                            <span class="text-uppercase bg-purple text-white font-weight-bold p-1">
+                                AJOUTER UNE REPONSE
+                            </span>
+                        </h5>
+                        <div class="row">
+                            <div class="col m-2">
+                                {{ form_start(form) }}
+                                    {{ form_widget(form) }}
+                                    <button type="submit" class="btn btn-success">
+                                        Enregistrer votre réponse&nbsp;<i class="fas fa-check-circle"></i>
+                                    </button>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                        {#<hr class="my-3">#}
+                        {% if evaluation_claim.answers|length > 0 %}
+                            <hr class="my-2">
+                            <div class="container-fluid bg-gray-200">
+                                <br><span class="bg-purple text-uppercase text-white font-weight-bold p-2">
+                                    Réponses
+                                </span><br><br>
+                                {% set answers = evaluation_claim.answers %}
+                                {% for answer in answers %}
+                                    <hr class="my-1">
+                                    <div class="row">
+                                        <div class="col m-2">
+                                            <p>{{ answer.content }}</p>
+                                            <p><i class="bi-person"></i>&nbsp;<a>{{answer.author.fullName|title}}</a>, <i class="bi-clock"></i>&nbsp;{{ answer.createdAt|format_datetime('short', 'short', locale='fr') }}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer mt-auto footer-light">
+            {% include "admin/footer.html.twig" %}
+        </footer>
+    </div>
+{% endblock %}

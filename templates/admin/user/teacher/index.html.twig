@@ -1,0 +1,101 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Liste des enseignants{% endblock %}
+{% block body %}
+    <div id="layoutSidenav_content">
+        <main>
+            <header class="page-header page-header-dark bg-header pb-10">
+                <div class="container">
+                    <div class="page-header-content pt-4">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto mt-4">
+                                <nav aria-label="breadcrumb" class="bg-transparent text-white">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="{{ path('admin') }}">
+                                            <i class="fas fa-home" style="color:white;"></i></a>
+                                        </li>
+                                        <li class="breadcrumb-item active text-white" aria-current="page">
+                                            Liste des enseignants
+                                        </li>
+                                    </ol>
+                                </nav>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            {# Main page content #}
+            <div class="container mt-n10">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <ul class="nav">
+                            <li class="nav-item m-2">
+                                <span class="text-uppercase bg-success text-white font-weight-bold p-2">
+                                    <i class="fas fa-users"></i>&ensp;Liste des enseignants
+                                </span>
+                            </li>
+                            <li class="nav-item ml-auto m-2">
+                                <a class="nav-link btn btn-purple" href="{{ path('add_teachers') }}">
+                                    <i class="bi bi-person-plus"></i>&ensp;AJOUTER
+                                </a>
+                            </li>
+                            <li class="nav-item m-2">
+                                <a class="nav-link btn btn-purple" href="{{ path('advanced_add_teachers') }}">
+                                    <i class="bi bi-person-plus-fill"></i>&ensp;ENSEIGNANTS + MATIERES
+                                </a>
+                            </li>
+                            <li class="nav-item m-2">
+                                <a class="nav-link btn btn-purple" href="{{ path('imports_teachers') }}">
+                                    <i class="fas fa-upload"></i>&ensp;AJOUTER PAR IMPORTATION
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="datatable">
+                            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                                <thead class="bg-secondary">
+                                    <tr class="text-uppercase font-weight-bold text-center text-white">
+                                        <th class="align-middle">Nom et Prénoms</th>
+                                        <th class="align-middle">E-mail</th>
+                                        <th class="align-middle">Matières</th>
+                                        <th class="align-middle">Statut</th>
+                                        <th class="align-middle">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for teacher in teachers %}
+                                    <tr>
+                                        <td class="align-middle">{{ teacher.fullName }}</td>
+                                        <td class="align-middle">{{ teacher.email }}</td>
+                                        <td class="text-center align-middle">
+                                            <a class="btn btn-purple btn-sm" href="{{ path('teachers_matters', {'id': teacher.id}) }}">
+                                                <span class="badge badge-light font-weight-bold text-black pl-2 pr-2">{{ teacher.matters|length }}</span>&ensp;<i class="fas fa-eye"></i></a>
+                                            </a>
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            {% if teacher.blocked == false or teacher.blocked == null %}
+                                                <i class="fas fa-user-check text-success"></i>
+                                            {% else %}
+                                                <i class="fas fa-user-times text-danger"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <a href="{{ path('update_teacher', {'id': teacher.id}) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="{{ path('reset_teacher_password', {'id': teacher.id}) }}" class="btn btn-warning btn-sm"><i class="fas fa-sync-alt"></i></a>
+                                            <a href="{{ path('delete_teachers', {'id': teacher.id}) }}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer mt-auto footer-light">
+            {% include "admin/footer.html.twig" %}
+        </footer>
+    </div>
+{% endblock %}

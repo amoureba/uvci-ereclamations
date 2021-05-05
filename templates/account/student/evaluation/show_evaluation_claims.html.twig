@@ -1,0 +1,134 @@
+{% extends 'base/base.html.twig' %}
+{% block title %}{{ evaluation.wording }} {% endblock %}
+{% block body %}
+<div class="container-fluid mt-3">
+    {% if app.user %}
+        {% if app.user.profile == "ETUDIANT" %}
+            <div class="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent">
+                        <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ path('account') }}"><i class="fas fa-home"></i></a></li>
+                        <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ path('student_semesters_index') }}">Inscriptions</a></li>
+                        <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ path('students_registration_evaluations_matters_index', {'id': registration.id}) }}">{{evaluation.semester.slug}}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            <a class="text-decoration-none" href="{{ path('show_tasks_matter', {'id': evaluation.matter.id, 'semester_slug': evaluation.semester.slug}) }}">
+                                {{ evaluation.matter.wording }}
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ evaluation.wording|capitalize }}</li>
+                    </ol>
+                </nav>
+                {# begin card of evaluation detail #}
+                <div class="card m-2">
+                    <div class="card-body">
+                        <br>
+                        <span class="text-uppercase bg-success text-white font-weight-bold p-2">
+                             {{ evaluation.wording }} / {{ evaluation.matter.wording }} / {{ evaluation.semester }}
+                        </span>
+                        <p class="card-text mt-3 mb-3">{{ evaluation.description }}</p>
+                        {% if evaluation.semester.academicYear.archived == false or evaluation.semester.academicYear.archived == null %}
+                            <button type="button" class="btn btn-purple font-weight-bold mt-2" data-toggle="modal" data-target="#staticBackdrop">
+                                Soumettre une Réclamation&nbsp;<i class="bi bi-arrow-right"></i>
+                            </button>
+                        {% elseif evaluation.semester.academicYear.archived == true %}
+                            {# Rentrée Archivée #}
+                        {% else %}
+                            {% if evaluation.semester.archived == false or evaluation.semester.archived == null %}
+                                <button type="button" class="btn btn-purple font-weight-bold mt-2" data-toggle="modal" data-target="#staticBackdrop">
+                                    Soumettre une Réclamation&nbsp;<i class="bi bi-arrow-right"></i>
+                                </button>
+                            {% elseif evaluation.semester.archived == true %}
+                                {# Semestre Archivé #}
+                            {% else %}
+                                {% if evaluation.archived == false or evaluation.archived == null %}
+                                    <button type="button" class="btn btn-purple font-weight-bold mt-2" data-toggle="modal" data-target="#staticBackdrop">
+                                        Soumettre une Réclamation&nbsp;<i class="bi bi-arrow-right"></i>
+                                    </button>
+                                {% else %}
+                                    {# Evaluation Archivée #}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        {# Modal #}
+                        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title bg-purple text-white font-weight-bold p-2" id="staticBackdropLabel">Votre Réclamation</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ form_start(form) }}
+                                        {{ form_widget(form) }}
+                                        <button type="submit" class="btn btn-success">
+                                            Enregistrer&nbsp;<i class="fas fa-check-circle"></i>
+                                        </button>
+                                        {{ form_end(form) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {#{% endif %}#}
+                    </div>
+                </div>
+                {# end card of evaluation detail #}
+                {% if claims|length > 0 %}
+                    <div class="card m-2">
+                        <div class="card-header">
+                            <span class="text-uppercase bg-purple text-white font-weight-bold p-2">
+                             Réclamations
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            {% for claim in claims %}
+                                <h3 class="font-weight-bold mb-2"><strong>{{ claim.wording }}</strong></h3>
+                                <p class="p-2"><i class="bi-person"></i>&nbsp;<a>{{claim.author.fullName|title}}</a>, <i class="bi-clock"></i>&nbsp;{{ claim.createdAt|format_datetime('short', 'short', locale='fr') }}</p>
+                                <div class="row">
+                                    <div class="col">
+                                        <img class="img-fluid" src="{{claim.capturePath}}" alt="{{ claim.wording }}">
+                                    </div>
+                                    <div class="col">
+                                        <p class="text-justify">{{ claim.content }}</p>
+                                    </div>
+                                </div>
+                                {#<hr class="my-3">#}
+                                {% if claim.answers|length > 0 %}
+                                    <hr class="my-2">
+                                    <div class="container-fluid bg-gray-200">
+                                    {% set answers = claim.answers %}
+                                        <br><span class="bg-purple text-uppercase text-white font-weight-bold p-2">
+                                            Réponses
+                                        </span><br>
+                                        {#<hr class="my-2">#}
+                                        {% for answer in answers %}
+                                            <hr class="my-2">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p>{{ answer.content }}</p>
+                                                    <p><i class="bi-person"></i>&nbsp;<a>{{answer.author.fullName|title}}</a>, <i class="bi-clock"></i>&nbsp;{{ answer.createdAt|format_datetime('short', 'short', locale='fr') }}</p>
+                                                </div>
+                                            </div>
+                                            {#<hr class="my-2">#}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <hr class="my-2">
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% else %}
+        <a href="{{ path('app_login') }}" class="btn btn-success">
+            <i class="fas fa-hand-point-right"></i>&ensp;Se Connecter
+        </a>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{asset('assets/ui/js/app.js')}}"></script>
+{% endblock %}

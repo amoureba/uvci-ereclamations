@@ -1,0 +1,57 @@
+{% extends 'base/base.html.twig' %}
+{% block title %}Vos Matières{% endblock %}
+{% block body %}
+    <div class="container-fluid mt-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent">
+            <li class="breadcrumb-item">
+                <a class="text-decoration-none" href="{{ path('account') }}"><i class="fas fa-home"></i></a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <a class="text-decoration-none" href="{{ path('teacher_ecue') }}">ECUE</a>
+            </li>
+        </ol>
+    </nav>
+    {% if app.user %}
+        {% if app.user.profile == "ENSEIGNANT" %}
+            <div class="card mb-4 card-header-actions h-100">
+                <div class="card-header text-white text-uppercase" style="background-color:#800080;">
+                    Vos Matières (ECUE)
+                </div>
+                <div class="card-body">
+                    <div class="datatable">
+                        <table class="table table-striped table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                            <thead class="bg-secondary">
+                                <tr class="text-uppercase font-weight-bold text-center text-white">
+                                    <th  class="align-middle">Libellé</th>
+                                    <th  class="align-middle">Devoirs</th>
+                                    <th  class="align-middle">Examens</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for matter in matters %}
+                                <tr>
+                                    <td class="align-middle text-uppercase">{{ matter.wording }}</td>
+                                    <td class="text-center align-middle">
+                                        <a href="{{ path('teachermatters_schools_tasks_index', {'id': matter.id}) }}" class="btn btn-purple btn-sm">Afficher les devoirs&ensp;<i class="fas fa-check-circle"></i></a>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <a href="{{ path('teachermatters_exams_index', {'id': matter.id}) }}" class="btn btn-success btn-sm">Afficher les examens&ensp;<i class="fas fa-check-circle"></i></a>
+                                    </div>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <a href="{{ path('app_login') }}" class="btn btn-success">
+            <i class="fas fa-hand-point-right"></i>&ensp;Se Connecter
+        </a>
+    {% endif %}
+
+    </div>
+{% endblock %}
+

@@ -1,0 +1,65 @@
+{% extends 'base/base.html.twig' %}
+{% block title %}Réclamation...{% endblock %}
+{% block body %}
+<div class="container-fluid mt-3">
+    {% if app.user %}
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent">
+                <li class="breadcrumb-item">
+                    <a href="{{ path('account') }}">
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <li class="breadcrumb-item active" aria-current="page">Réclamation</li>
+                </li>
+            </ol>
+        </nav>
+        {% if app.user.profile == "ETUDIANT" %}
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-10 col-md-12">
+                        <div class="card m-2">
+                            <div class="row no-gutters">
+                                <div class="col-md-6">
+                                <img src="{{claim.capturePath}}" alt="..." class="img-fluid">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ claim.wording }}</h5>
+                                        <p>
+                                            <span class="badge badge-pill badge-blue font-weight-bold p-1">
+                                            <i class="fas fa-user-circle"></i>&nbsp;{{ claim.author.fullName }} 
+                                            </span>
+                                            <span class="badge badge-pill badge-success font-weight-bold p-1">
+                                                <i class="fas fa-clock"></i>&nbsp;{{ claim.createdAt|date("d/m/Y h:m:s") }}
+                                            </span>
+                                            <span class="badge badge-pill badge-danger font-weight-bold p-1">
+                                                <i class="fas fa-comments"></i>&nbsp;{{ claim.answers|length }} Réponses
+                                            </span>
+                                            <span class="badge badge-pill badge-purple font-weight-bold p-1">
+                                                {% if claim.archived %}
+                                                    <i class="fas fa-file-archive"></i>&nbsp;Archivé
+                                                {% else %}
+                                                    <i class="fas fa-folder-open"></i>&nbsp;Non Archivé
+                                                {% endif %}
+                                            </span>
+                                        </p>
+                                        <p class="card-text">{{ claim.content }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}{# end student #}
+    {% else %}
+        <a href="{{ path('app_login') }}" class="btn btn-success">
+            <i class="fas fa-hand-point-right"></i>&ensp;Se Connecter
+        </a>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{asset('assets/ui/js/app.js')}}"></script>
+{% endblock %}
