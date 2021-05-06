@@ -17,7 +17,7 @@ class MatterController extends AbstractController
 {
 
     /**
-     * @Route("/admin/matters/index", name="matters_index")
+     * @Route("/admin/ecue-au-programme/index", name="matters_index")
      */
     public function index(MatterRepository $matterRepository): Response
     {
@@ -28,7 +28,7 @@ class MatterController extends AbstractController
     }
 
     /**
-     * @Route("/admin/matters/{coded}/update", name="matter_edit")
+     * @Route("/admin/mise-a-jour-ecue/{coded}", name="matter_edit")
      * @return Response
      */
     public function edit(Matter $matter, Request $request, EntityManagerInterface $entityManager)
@@ -51,7 +51,7 @@ class MatterController extends AbstractController
     }
 
     /**
-     * @Route("/admin/matters/{id}/delete", name="delete_matter")
+     * @Route("/admin/supprimer-l-ecue/{id}", name="delete_matter")
      * @return Response
      */
     public function delete(Matter $matter, MatterRepository $matterRepo, EntityManagerInterface $entityManager)
@@ -75,7 +75,7 @@ class MatterController extends AbstractController
     }
 
     /**
-     * @Route("/admin/matters/add", name="add_matter")
+     * @Route("/admin/ajouter-des-ecue", name="add_matter")
      */
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -98,7 +98,7 @@ class MatterController extends AbstractController
     }
 
     /**
-     * @Route("/admin/matters/imports", name="imports_matters")
+     * @Route("/admin/ajouter-des-ecue-par-importation", name="imports_matters")
      */
     public function import(MatterRepository $matterRepository, Request $request, EntityManagerInterface $entityManager): Response
     {

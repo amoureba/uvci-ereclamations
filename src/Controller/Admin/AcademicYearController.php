@@ -13,10 +13,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AcademicYearController extends AbstractController
 {
-
     /**
-     * Afficher toutes les années academique
-     * @Route("/admin/academics-years/index", name="academics_years_index")
+     * Afficher toutes les rentrées academiques
+     * @Route("/admin/rentrees-academiques/index", name="academics_years_index")
      */
     public function index(AcademicYearRepository $academicYearRepository): Response
     {
@@ -27,7 +26,7 @@ class AcademicYearController extends AbstractController
     }
 
     /**
-     * @Route("/admin/academics-years/add", name="academics_years_add")
+     * @Route("/admin/rentrees-academiques/ajouter", name="academics_years_add")
      */
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -49,8 +48,8 @@ class AcademicYearController extends AbstractController
     }
 
     /**
-     * Modifier une années academique
-     * @Route("/admin/academics-years/{coded}/update", name="academic_year_edit")
+     * Modifier une rentrée academique
+     * @Route("/admin/rentree-academique/{coded}/mise-a-jour", name="academic_year_edit")
      * @return Response
      */
     public function edit(AcademicYear $academicYear, Request $request, EntityManagerInterface $entityManager)
@@ -73,7 +72,7 @@ class AcademicYearController extends AbstractController
     }
 
     /**
-     * @Route("/admin/academics-years/{id}/delete", name="delete_academic_year")
+     * @Route("/admin/rentree-academique/{id}/supprimer", name="delete_academic_year")
      * @return Response
      */
     public function delete(AcademicYear $academicYear, AcademicYearRepository $academicYearRepo, EntityManagerInterface $entityManager)
@@ -88,7 +87,7 @@ class AcademicYearController extends AbstractController
         } else {
             $this->addFlash(
                 'warning',
-                "La rentrée que vous avez sélectionnée n'existe pas dans la base de données !"
+                "La rentrée que vous avez sélectionnée n'existe pas !"
             );
         }
         return $this->redirectToRoute('academics_years_index');

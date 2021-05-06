@@ -33,7 +33,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class StudentController extends AbstractController
 {
     /**
-     * @Route("/admin/students/index", name="students_index")
+     * @Route("/admin/etudiants/index", name="students_index")
      */
     public function index(UserRepository $userRepository): Response
     {
@@ -44,7 +44,7 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/admin/students/{id}/registrations", name="show_students_cursus")
+     * @Route("/admin/etudiant/{id}/inscriptions", name="show_students_cursus")
      * @return Response
      */
     public function registrations(User $user, RegistrationRepository $registrationRepository)
@@ -57,7 +57,7 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/admin/student-registration/{id}/delete", name="admindelete_registrations")
+     * @Route("/admin/etudiant/supprimer-l-inscription/{id}", name="admindelete_registrations")
      * @return Response
      */
     public function deleteRegistration(RegistrationRepository $registrationRepo, Registration $registration, EntityManagerInterface $entityManager)
@@ -80,12 +80,10 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/admin/students/add", name="add_students")
+     * @Route("/admin/etudiants/ajouter", name="add_students")
      * @return Response
      */
-    public function add(Request $request, 
-    EntityManagerInterface $entityManager, 
-    UserPasswordEncoderInterface $encoder)
+    public function add(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
         //$form = $this->createForm(StudentRegisterType::class, $user);
@@ -108,12 +106,10 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/admin/students/{id}/update", name="update_student")
+     * @Route("/admin/mise-a-jour-de-l-etudiant/{id}", name="update_student")
      * @return Response
      */
-    public function update(User $user, 
-    Request $request, 
-    EntityManagerInterface $entityManager, 
+    public function update(User $user, Request $request, EntityManagerInterface $entityManager, 
     UserPasswordEncoderInterface $encoder)
     {
         $form = $this->createForm(UserType::class, $user);
@@ -139,13 +135,10 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/admin/students/{id}/delete", name="delete_students")
+     * @Route("/admin/supprimer-l-etudiant/{id}", name="delete_students")
      * @return Response
      */
-    public function delete(
-        User $user,
-        EntityManagerInterface $entityManager, 
-        UserRepository $userRepo) 
+    public function delete(User $user, EntityManagerInterface $entityManager, UserRepository $userRepo) 
     {
         if ($userRepo->findOneBy(['id' => $user])) {
             $entityManager->remove($user);
@@ -164,12 +157,10 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/admin/students/{id}/reset-password", name="reset_student_password")
+     * @Route("/admin/reinitialisation-du-mot-de-passe-de-l-etudiant/{id}", name="reset_student_password")
      * @return Response
      */
-    public function resetPassword(User $user, 
-    Request $request, 
-    EntityManagerInterface $entityManager, 
+    public function resetPassword(User $user, Request $request, EntityManagerInterface $entityManager, 
     UserPasswordEncoderInterface $encoder)
     {
         $form = $this->createForm(UserResetPasswordType::class, $user);
@@ -191,11 +182,10 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/admin/students/separate-assignment-student", name="separate_assignment_student")
+     * @Route("/admin/etudiants/affectations-individuelles", name="separate_assignment_student")
      * @return Response
      */
-    public function separateAssignment(Request $request, 
-    UserRepository $userRepository, 
+    public function separateAssignment(Request $request, UserRepository $userRepository, 
     EntityManagerInterface $entityManager)
     {
         $registration = new Registration();
@@ -232,13 +222,11 @@ class StudentController extends AbstractController
 
     /**
      * Repartition des étudiants selon le niveau, la specialité, le semestre d'inscription
-     * @Route("/admin/students/grouped-assignment-by-import", name="grouped_assignment_by_import")
+     * @Route("/admin/etudiants/affectations-groupees-par-importation", name="grouped_assignment_by_import")
      * @return Response
      */
-    public function groupedAssignment(Request $request, 
-    EntityManagerInterface $entityManager, 
-    RegistrationRepository $registrationRepo, 
-    UserRepository $userRepository)
+    public function groupedAssignment(Request $request, EntityManagerInterface $entityManager, 
+    RegistrationRepository $registrationRepo, UserRepository $userRepository)
     {
         $registration = new Registration();
         $form = $this->createForm(StudentsDivisionForImportType::class, $registration);
@@ -371,12 +359,10 @@ class StudentController extends AbstractController
 
     /**
      * Enregistrer des étudiants par importation
-     * @Route("/admin/students/imports", name="imports_students")
+     * @Route("/admin/etudiants/ajouter-par-importation", name="imports_students")
      * @return Response
      */
-    public function importStudents(UserRepository $userRepository, 
-    Request $request, 
-    EntityManagerInterface $entityManager, 
+    public function importStudents(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, 
     UserPasswordEncoderInterface $encoder)
     {
         /*$uploadStudents = new UploadStudents();
@@ -496,7 +482,7 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/admin/students/{id}/claims", name="show_students_claims")
+     * @Route("/admin/etudiant/{id}/reclamations", name="show_students_claims")
      * @return Response
      */
     public function claims(User $user, ClaimRepository $claimRepository)
@@ -518,16 +504,11 @@ class StudentController extends AbstractController
 
     /**
      * Afficher une réclamation (catégorie examen) et permettre l'ajout de reponse
-     * @Route("admin/students/examination/{id}/claim/{claim_id}", name="admin_view_students_examination_claims")
+     * @Route("admin/etudiants/examen/{id}/reclamation/{claim_id}", name="admin_view_students_examination_claims")
      * @ParamConverter("claim", options={"mapping": {"claim_id": "id"}})
      */
-    public function ViewExaminationClaims(
-        ClaimRepository $claimRepository,
-        Claim $claim,
-        Examination $examination,
-        Request $req,
-        EntityManagerInterface $em): Response 
-        {
+    public function ViewExaminationClaims(ClaimRepository $claimRepository, Claim $claim, Examination $examination, Request $req, EntityManagerInterface $em): Response 
+    {
         $examClaim = $claimRepository->findOneBy(['id' => $claim]);
         $answer = new Answer();
         $form = $this->createForm(AnswerType::class, $answer);
@@ -554,26 +535,18 @@ class StudentController extends AbstractController
 
     /**
      * Afficher une réclamation (catégorie devoir) et permettre l'ajout de reponse
-     * @Route("admin/students/evaluation/{id}/claim/{claim_id}", name="students_evaluations_claims")
+     * @Route("admin/etudiants/devoir/{id}/reclamation/{claim_id}", name="students_evaluations_claims")
      * @ParamConverter("claim", options={"mapping": {"claim_id": "id"}})
      */
-    public function viewEvaluationClaims(
-        ClaimRepository $claimRepository,
-        Evaluation $evaluation,
-        Claim $claim,
-        Request $req,
-        EntityManagerInterface $em): Response 
-        {
+    public function viewEvaluationClaims(ClaimRepository $claimRepository, Evaluation $evaluation, Claim $claim, Request $req, EntityManagerInterface $em): Response 
+    {
         $evaluationClaim = $claimRepository->findOneBy(['id' => $claim]);
-
         $answer = new Answer();
         $form = $this->createForm(AnswerType::class, $answer);
         $form->handleRequest($req);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $answer->setAuthor($this->getUser())
-                ->setClaim($claim);
-
+                   ->setClaim($claim);
             $em->persist($answer);
             $em->flush();
             $this->addFlash(
@@ -591,17 +564,12 @@ class StudentController extends AbstractController
     }
 
     /**
-     * Afficher une réclamation (catégorie : gestion ou technique) et permettre l'ajout de reponse
-     * @Route("admin/students/others-claims/{id}", name="admin_students_others_claims")
+     * Afficher une réclamation (catégorie : autre) et permettre l'ajout de reponse
+     * @Route("admin/etudiant/reclamation-autre/{id}", name="admin_students_others_claims")
      */
-    public function otherClaims(
-        ClaimRepository $claimRepository,
-        Claim $claim,
-        Request $req,
-        EntityManagerInterface $em
-    ): Response {
+    public function otherClaims(ClaimRepository $claimRepository, Claim $claim, Request $req, EntityManagerInterface $em): Response 
+    {
         $otherClaim = $claimRepository->findOneBy(['id' => $claim]);
-
         $answer = new Answer();
         $form = $this->createForm(AnswerType::class, $answer);
         $form->handleRequest($req);
@@ -626,14 +594,11 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/admin/students/claims/{id}/delete", name="admin_delete_students_claims")
+     * @Route("/admin/etudiants/supprimer-la-reclamation/{id}", name="admin_delete_students_claims")
      * @return Response
      */
-    public function deleteClaim(
-        Claim $claim,
-        EntityManagerInterface $entityManager,
-        ClaimRepository $claimRepo
-    ) {
+    public function deleteClaim(Claim $claim, EntityManagerInterface $entityManager, ClaimRepository $claimRepo) 
+    {
         $auth = $claimRepo->findOneBy(['id' => $claim])->getAuthor();
         if($claimRepo->findOneBy(['id' => $claim]))
         {
@@ -656,12 +621,11 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/admin/students/evaluation-claim/{id}/update", name="admin_update_students_evaluations_claims")
+     * @Route("/admin/etudiants/mise-a-jour-reclamation-sur-devoir/{id}", name="admin_update_students_evaluations_claims")
      * @return Response
      */
-    public function showEvaluationClaim(Claim $claim,
-        Request $request,
-        EntityManagerInterface $entityManager) {
+    public function showEvaluationClaim(Claim $claim, Request $request, EntityManagerInterface $entityManager) 
+    {
         $form = $this->createForm(UpdateEvaluationClaimType::class, $claim);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -680,14 +644,11 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/admin/students/other-claim/{id}/update", name="admin_update_students_others_claims")
+     * @Route("/admin/etudiants/mise-a-jour-reclamation-autre/{id}", name="admin_update_students_others_claims")
      * @return Response
      */
-    public function showOtherClaim(
-        Claim $claim,
-        Request $request,
-        EntityManagerInterface $entityManager
-    ) {
+    public function showOtherClaim(Claim $claim, Request $request, EntityManagerInterface $entityManager) 
+    {
         $form = $this->createForm(OtherClaimType::class, $claim);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -706,14 +667,11 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/admin/students/examination-claim/{id}/update", name="admin_update_students_examination_claims")
+     * @Route("/admin/etudiants/mise-a-jour-reclamation-sur-examen/{id}", name="admin_update_students_examination_claims")
      * @return Response
      */
-    public function showExaminationClaim(
-        Claim $claim,
-        Request $request,
-        EntityManagerInterface $entityManager
-    ) {
+    public function showExaminationClaim(Claim $claim, Request $request, EntityManagerInterface $entityManager) 
+    {
         $form = $this->createForm(UpdateExaminationClaimType::class, $claim);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

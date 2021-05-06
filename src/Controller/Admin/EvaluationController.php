@@ -18,7 +18,7 @@ class EvaluationController extends AbstractController
 {
 
     /**
-     * @Route("/admin/evaluations/index", name="admin_evaluations_index")
+     * @Route("/admin/devoirs/index", name="admin_evaluations_index")
      */
     public function index(EvaluationRepository $evaluationRepository): Response
     {
@@ -29,7 +29,7 @@ class EvaluationController extends AbstractController
     }
 
     /**
-     * @Route("/admin/evaluations/add", name="admin_add_evaluations")
+     * @Route("/admin/devoirs/ajouter", name="admin_add_evaluations")
      * @return Response
      */
     public function add(Request $request, EntityManagerInterface $entityManager): Response
@@ -53,7 +53,7 @@ class EvaluationController extends AbstractController
     }
 
     /**
-     * @Route("/admin/evaluations/{id}/delete", name="admin_delete_evaluations")
+     * @Route("/admin/devoirs/{id}/supprimer", name="admin_delete_evaluations")
      * @return Response
      */
     public function delete(Evaluation $evaluation, EvaluationRepository $evaluationRepo, EntityManagerInterface $entityManager)
@@ -75,10 +75,11 @@ class EvaluationController extends AbstractController
     }
 
     /**
-     * @Route("/admin/evaluations/{id}/update", name="admin_edit_evaluations")
+     * @Route("/admin/devoir/{id}/mise-a-jour", name="admin_edit_evaluations")
      * @return Response
      */
-    public function edit(Evaluation $task, Request $request, EntityManagerInterface $entityManager){
+    public function edit(Evaluation $task, Request $request, EntityManagerInterface $entityManager)
+    {
         $form = $this->createForm(EvaluationType::class, $task);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

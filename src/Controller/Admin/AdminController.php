@@ -11,7 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin/dashbord", name="admin")
+     * Tableau de bord administrateur
+     * @Route("/admin/tableau-de-bord", name="admin")
      */
     public function index(ClaimRepository $claimRepository, StatsService $stats): Response
     {

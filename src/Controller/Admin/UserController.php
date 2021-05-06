@@ -19,7 +19,7 @@ class UserController extends AbstractController
 
     /**
      * users
-     * @Route("/admin/users/index", name="users_index")
+     * @Route("/admin/utilisateurs/index", name="users_index")
      */
     public function index(UserRepository $userRepo): Response
     {
@@ -38,25 +38,19 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/admin/users/{id}/reset-password", name="users_reset_password")
+     * @Route("/admin/reinitialisation-du-mot-de-passe-de-l-utilisateur/{id}", name="users_reset_password")
      * @return Response
      */
-    public function resetPassword(User $user, 
-    Request $request, 
-    EntityManagerInterface $entityManager, 
+    public function resetPassword(User $user, Request $request, EntityManagerInterface $entityManager, 
     UserPasswordEncoderInterface $encoder)
     {
 
         $form = $this->createForm(UserResetPasswordType::class, $user);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user->setPassword($encoder->encodePassword($user, 'password'));
             $entityManager->persist($user);
             $entityManager->flush();
-
             $this->addFlash(
                 'success',
                 "Le mot de passe de l'utilisateur <strong>{$user->getFullName()}</strong> a été réinitialiser avec succès !"
@@ -71,12 +65,10 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/admin/users/add", name="users_add")
+     * @Route("/admin/ajouter-des-utilisateurs", name="users_add")
      * @return Response
      */
-    public function add(Request $request, 
-    EntityManagerInterface $entityManager, 
-    UserPasswordEncoderInterface $encoder)
+    public function add(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
         $form = $this->createForm(AllUserType::class, $user);
@@ -107,12 +99,10 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/admin/users/{id}/update", name="users_edit")
+     * @Route("/admin/mise-a-jour-de-l-utilisateur/{id}", name="users_edit")
      * @return Response
      */
-    public function edit(User $user, 
-    Request $request, 
-    EntityManagerInterface $entityManager,
+    public function edit(User $user, Request $request, EntityManagerInterface $entityManager,
     UserPasswordEncoderInterface $encoder)
     {
 

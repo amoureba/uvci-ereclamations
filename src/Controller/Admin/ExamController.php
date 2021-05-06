@@ -20,7 +20,7 @@ class ExamController extends AbstractController
 {
     /**
      * Afficher toutes les sessions
-     * @Route("/admin/exams/index", name="exams_index")
+     * @Route("/admin/examens-toutes-les-sessions/index", name="exams_index")
      */
     public function index(ExamRepository $examRepository): Response
     {
@@ -32,7 +32,7 @@ class ExamController extends AbstractController
 
     /**
      * Ajouter une session pour (niveau, spécialité, semestre)
-     * @Route("/admin/exams/add", name="add_exams")
+     * @Route("/admin/examens/ajouter-des-sessions", name="add_exams")
      * @return Response
      */
     public function add(Request $request, EntityManagerInterface $entityManager, MatterSpecialtyRepository $matterSpecialtyRepository, SluggerInterface $slugger): Response
@@ -77,12 +77,11 @@ class ExamController extends AbstractController
     }
 
     /**
-     * Archiver un examen
-     * @Route("/admin/exams/{id}/update", name="update_exams")
+     * Archiver / Déarchiver une session d'examen
+     * @Route("/admin/examens/archiver-desarchiver-la-session/{id}", name="update_exams")
      * @return Response
      */
-    public function update(Request $request, 
-    EntityManagerInterface $entityManager, 
+    public function update(Request $request, EntityManagerInterface $entityManager, 
     Exam $exam, ExamRepository $examRepo): Response
     {
         if ($examRepo->findOneBy(['id' => $exam])) {
@@ -132,8 +131,8 @@ class ExamController extends AbstractController
     }
 
     /**
-     * Suppression d'un examen par son id
-     * @Route("/admin/exams/{id}/delete", name="delete_exam")
+     * Suppression d'une session d'examen par son id
+     * @Route("/admin/examens/supprimer-la-session/{id}", name="delete_exam")
      */
     public function delete(ExamRepository $examRepo, Exam $exam, EntityManagerInterface $entityManager): Response
     {
@@ -154,8 +153,8 @@ class ExamController extends AbstractController
     }
 
     /**
-     * Afficher les détails d'un examen
-     * @Route("/admin/exams/{slug}/details", name="details_exam")
+     * Afficher les détails d'une session d'examen
+     * @Route("/admin/examen/{slug}/details", name="details_exam")
      */
     public function details(ExaminationRepository $examinationRepo, Exam $exam): Response
     {
@@ -168,7 +167,7 @@ class ExamController extends AbstractController
 
     /**
      * Suppression d'une ligne de composition par son id
-     * @Route("/admin/exams/examinations/{id}/delete", name="delete_exams_examinations")
+     * @Route("/admin/examens/supprimer-la-composition/{id}", name="delete_exams_examinations")
      */
     public function deleteExamination(ExaminationRepository $examinationRepo, Examination $examination, EntityManagerInterface $entityManager): Response
     {

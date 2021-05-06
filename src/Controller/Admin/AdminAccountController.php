@@ -18,7 +18,8 @@ class AdminAccountController extends AbstractController
 {
 
     /**
-     * @Route("/admin/update-account", name="update_admin_account")
+     * Mise a jour (nom, prenoms et email) de l'administrateur en ligne
+     * @Route("/admin/mise-a-jour-profil-utilisateur", name="update_admin_account")
      * @return Response
      */
     public function edit(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger)
@@ -54,8 +55,8 @@ class AdminAccountController extends AbstractController
     }
 
     /**
-     * update admin password
-     * @Route("/admin/update-password", name="update_admin_password")
+     * Modification mot de passe administrateur en ligne
+     * @Route("/admin/modification-mot-de-passe", name="update_admin_password")
      * @return Response
      */
     public function updatePassword(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $entityManager)

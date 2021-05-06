@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class LevelController extends AbstractController
 {
     /**
-     * @Route("/admin/levels/index", name="levels_index")
+     * @Route("/admin/niveaux-d-etudes/index", name="levels_index")
      */
     public function index(LevelRepository $levelRepository): Response
     {
@@ -27,7 +27,7 @@ class LevelController extends AbstractController
     }
 
     /**
-     * @Route("/admin/levels/add", name="add_level")
+     * @Route("/admin/niveaux-d-etudes/ajouter", name="add_level")
      */
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -49,7 +49,7 @@ class LevelController extends AbstractController
     }
 
     /**
-     * @Route("/admin/levels/{coded}/update", name="level_edit")
+     * @Route("/admin/niveau-d-etude/{coded}/mise-a-jour", name="level_edit")
      * @return Response
      */
     public function edit(Level $level, Request $request, EntityManagerInterface $entityManager)
@@ -72,7 +72,7 @@ class LevelController extends AbstractController
     }
 
     /**
-     * @Route("/admin/levels/{id}/delete", name="delete_level")
+     * @Route("/admin/niveau-d-etude/{id}/supprimer", name="delete_level")
      * @return Response
      */
     public function delete(Level $level, LevelRepository $levelRepo, EntityManagerInterface $entityManager)
@@ -94,7 +94,7 @@ class LevelController extends AbstractController
     }
 
     /**
-     * @Route("/admin/levels/imports", name="imports_levels")
+     * @Route("/admin/ajouter-des-niveaux-d-etudes-par-importation", name="imports_levels")
      */
     public function import(LevelRepository $levelRepository, 
     Request $request, EntityManagerInterface $entityManager): Response

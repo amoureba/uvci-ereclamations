@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class TechnicianController extends AbstractController
 {
     /**
-     * @Route("/admin/technicians/index", name="technicians_index")
+     * @Route("/admin/techniciens/index", name="technicians_index")
      */
     public function index(UserRepository $userRepository): Response
     {
@@ -28,7 +28,7 @@ class TechnicianController extends AbstractController
     }
 
     /**
-     * @Route("/admin/technicians/add", name="add_technicians")
+     * @Route("/admin/ajouter-des-techniciens", name="add_technicians")
      * @return Response
      */
     public function add(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
@@ -53,13 +53,10 @@ class TechnicianController extends AbstractController
     }
 
     /**
-     * @Route("/admin/technicians/{id}/update", name="update_technicians")
+     * @Route("/admin/mise-a-jour-du-technicien/{id}", name="update_technicians")
      * @return Response
      */
-    public function update(User $user, 
-    Request $request, 
-    EntityManagerInterface $entityManager, 
-    UserPasswordEncoderInterface $encoder)
+    public function update(User $user, Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -83,7 +80,7 @@ class TechnicianController extends AbstractController
 
     /**
      * Suppression de techniciens
-     * @Route("/admin/technicians/{id}/delete", name="delete_technicians")
+     * @Route("/admin/supprimer-le-technicien/{id}", name="delete_technicians")
      * @return Response
      */
     public function delete(User $user, UserRepository $userRepo, EntityManagerInterface $entityManager)
@@ -105,7 +102,7 @@ class TechnicianController extends AbstractController
     }
 
     /** 
-     * @Route("/admin/technicians/{id}/reset-password", name="reset_technicians_password")
+     * @Route("/admin/reinitialisation-du-mot-de-passe-du-technicien/{id}", name="reset_technicians_password")
      * @return Response
      */
     public function resetPassword(User $user, Request $request, EntityManagerInterface$entityManager, UserPasswordEncoderInterface $encoder)

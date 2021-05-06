@@ -17,7 +17,7 @@ class SemesterController extends AbstractController
 
     /**
      * Afficher tout les sémestres
-     * @Route("/admin/semesters/index", name="semesters_index")
+     * @Route("/admin/semestres/index", name="semesters_index")
      */
     public function index(SemesterRepository $semesterRepository): Response
     {
@@ -28,13 +28,10 @@ class SemesterController extends AbstractController
     }
 
     /**
-     * @Route("/admin/semesters/{slug}/update", name="semester_edit")
+     * @Route("/admin/mise-a-jour-du-semestre/{slug}", name="semester_edit")
      * @return Response
      */
-    public function edit(Semester $semester, 
-    Request $request, 
-    EntityManagerInterface $entityManager, 
-    SluggerInterface $slugger)
+    public function edit(Semester $semester, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger)
     {
         $form = $this->createForm(SemesterType::class, $semester);
         $form->handleRequest($request);
@@ -61,7 +58,7 @@ class SemesterController extends AbstractController
 
     /**
      * Suppression de sémestres
-     * @Route("/admin/semesters/{slug}/delete", name="delete_semesters")
+     * @Route("/admin/supprimer-le-semestre/{slug}", name="delete_semesters")
      * @return Response
      */
     public function delete(Semester $semester, SemesterRepository $semesterRepo, EntityManagerInterface $entityManager)
@@ -83,10 +80,9 @@ class SemesterController extends AbstractController
     }
 
     /**
-     * @Route("/admin/semesters/add", name="semesters_add")
+     * @Route("/admin/ajouter-des-semestres", name="semesters_add")
      */
-    public function add(Request $request, 
-    EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function add(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $semester = new Semester();
         $form = $this->createForm(SemesterType::class, $semester);

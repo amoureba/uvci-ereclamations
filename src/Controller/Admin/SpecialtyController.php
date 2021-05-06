@@ -17,8 +17,7 @@ class SpecialtyController extends AbstractController
 {
 
     /**
-     * specialties
-     * @Route("/admin/specialties/index", name="specialties_index")
+     * @Route("/admin/specialites/index", name="specialties_index")
      */
     public function index(SpecialtyRepository $specialtyRepository): Response
     {
@@ -29,7 +28,7 @@ class SpecialtyController extends AbstractController
     }
 
     /**
-     * @Route("/admin/specialties//{coded}/update", name="specialty_edit")
+     * @Route("/admin/mise-a-jour-de-la-specialite/{coded}", name="specialty_edit")
      * @return Response
      */
     public function edit(Specialty $specialty, Request $request, EntityManagerInterface $entityManager)
@@ -52,7 +51,7 @@ class SpecialtyController extends AbstractController
     }
 
     /**
-     * @Route("/admin/specialties/{id}/delete", name="delete_specialty")
+     * @Route("/admin/supprimer-la-specialite/{id}", name="delete_specialty")
      * @return Response
      */
     public function delete(Specialty $specialty, SpecialtyRepository $specialtyRepo, EntityManagerInterface $entityManager)
@@ -74,7 +73,7 @@ class SpecialtyController extends AbstractController
     }
 
     /**
-     * @Route("/admin/specialties/add", name="add_specialty")
+     * @Route("/admin/ajouter-des-specialites", name="add_specialty")
      */
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -96,7 +95,7 @@ class SpecialtyController extends AbstractController
     }
 
     /**
-     * @Route("/admin/specialties/imports", name="imports_specialties")
+     * @Route("/admin/ajouter-des-specialites-par-importation", name="imports_specialties")
      */
     public function import(SpecialtyRepository $specialtyRepository, Request $request, EntityManagerInterface $entityManager): Response
     {

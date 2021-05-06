@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ManagerController extends AbstractController
 {
     /**
-     * @Route("/admin/managers/index", name="managers_index")
+     * @Route("/admin/gestionnaires/index", name="managers_index")
      */
     public function index(UserRepository $userRepository): Response
     {
@@ -28,7 +28,7 @@ class ManagerController extends AbstractController
     }
 
     /**
-     * @Route("/admin/managers/add", name="add_managers")
+     * @Route("/admin/gestionnaires/ajouter", name="add_managers")
      * @return Response
      */
     public function add(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
@@ -57,7 +57,7 @@ class ManagerController extends AbstractController
 
     /**
      * Suppression de managers
-     * @Route("/admin/managers/{id}/delete", name="delete_managers")
+     * @Route("/admin/supprimer-le-gestionnaire/{id}", name="delete_managers")
      * @return Response
      */
     public function delete(User $user, UserRepository $userRepo, EntityManagerInterface $entityManager)
@@ -79,12 +79,10 @@ class ManagerController extends AbstractController
     }
 
     /**
-     * @Route("/admin/managers/{id}/update", name="update_managers")
+     * @Route("/admin/modification-du-gestionnaire/{id}", name="update_managers")
      * @return Response
      */
-    public function update(User $user, 
-    Request $request, 
-    EntityManagerInterface $entityManager,
+    public function update(User $user, Request $request, EntityManagerInterface $entityManager,
     UserPasswordEncoderInterface $encoder)
     {
         $form = $this->createForm(UserType::class, $user);
@@ -112,7 +110,7 @@ class ManagerController extends AbstractController
 
 
     /** 
-     * @Route("/admin/managers/{id}/reset-password", name="reset_managers_password")
+     * @Route("/admin/reinitialisation-du-mot-de-passe-du-gestionnaire/{id}", name="reset_managers_password")
      * @return Response
      */
     public function resetPassword(User $user, Request $request, EntityManagerInterface$entityManager, UserPasswordEncoderInterface $encoder)

@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class TeacherController extends AbstractController
 {
     /**
-     * @Route("/admin/teachers/index", name="teachers_index")
+     * @Route("/admin/enseignants/index", name="teachers_index")
      */
     public function index(UserRepository $userRepository): Response
     {
@@ -33,7 +33,7 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/admin/teachers/add", name="add_teachers")
+     * @Route("/admin/ajouter-des-enseignants", name="add_teachers")
      * @return Response
      */
     public function add(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
@@ -60,14 +60,11 @@ class TeacherController extends AbstractController
 
     /**
      * Suppression d'enseignants
-     * @Route("/admin/teachers/{id}/delete", name="delete_teachers")
+     * @Route("/admin/supprimer-l-enseignant/{id}", name="delete_teachers")
      * @return Response
      */
-    public function delete(
-        User $user,
-        EntityManagerInterface $entityManager,
-        UserRepository $userRepo
-    ) {
+    public function delete(User $user, EntityManagerInterface $entityManager, UserRepository $userRepo) 
+    {
         if ($userRepo->findOneBy(['id' => $user])) {
             $entityManager->remove($user);
             $entityManager->flush();
@@ -85,12 +82,10 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/admin/teachers/advanced-add", name="advanced_add_teachers")
+     * @Route("/admin/ajouter-des-enseignants-avec-ecue-enseignees", name="advanced_add_teachers")
      * @return Response
      */
-    public function advancedAdd(Request $request, 
-    EntityManagerInterface $entityManager, 
-    UserPasswordEncoderInterface $encoder)
+    public function advancedAdd(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
         $form = $this->createForm(TeachersRegistrationType::class, $user);
@@ -114,12 +109,10 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/admin/teachers/{id}/update", name="update_teacher")
+     * @Route("/admin/mise-a-jour-de-l-enseignant/{id}", name="update_teacher")
      * @return Response
      */
-    public function update(User $user, 
-    Request $request, 
-    EntityManagerInterface $entityManager,
+    public function update(User $user, Request $request, EntityManagerInterface $entityManager,
     UserPasswordEncoderInterface $encoder)
     {
         $form = $this->createForm(UserType::class, $user);
@@ -143,7 +136,7 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/admin/teachers/{id}/matters-update", name="update_teacher_matters")
+     * @Route("/admin/mise-a-jour-des-ecue-de-l-enseignant/{id}", name="update_teacher_matters")
      * @return Response
      */
     public function updateMatters(User $user, Request $request, EntityManagerInterface $entityManager)
@@ -166,7 +159,7 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/admin/teachers/{id}/matters", name="teachers_matters")
+     * @Route("/admin/les-ecue-de-l-enseignant/{id}", name="teachers_matters")
      * @return Response
      */
     public function matters(User $user, MatterRepository $matterRepository)
@@ -179,7 +172,7 @@ class TeacherController extends AbstractController
     }
 
     /** 
-     * @Route("/admin/teachers/{id}/reset-password", name="reset_teacher_password")
+     * @Route("/admin/reinitialisation-du-mot-de-passe-de-l-enseignant/{id}", name="reset_teacher_password")
      * @return Response
      */
     public function resetPassword(User $user, Request $request, EntityManagerInterface$entityManager, UserPasswordEncoderInterface $encoder)
@@ -204,13 +197,10 @@ class TeacherController extends AbstractController
 
     /**
      * import teachers
-     * @Route("/admin/teachers/imports", name="imports_teachers")
+     * @Route("/admin/ajouter-des-enseignants-par-importation", name="imports_teachers")
      * @return Response
      */
-    public function import(UserRepository $userRepository, 
-    Request $request, 
-    EntityManagerInterface $entityManager, 
-    UserPasswordEncoderInterface $encoder)
+    public function import(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
     {
         $imports = new Imports();
         $form = $this->createForm(ImportsType::class, $imports);

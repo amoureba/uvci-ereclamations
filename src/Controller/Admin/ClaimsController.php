@@ -24,7 +24,7 @@ class ClaimsController extends AbstractController
 {
     /**
      * Suppression de réclamations depuis le tableau de bord
-     * @Route("/admin/claims/{id}/delete", name="admin_deleteclaims")
+     * @Route("/admin/reclamation/{id}/supprimer", name="admin_deleteclaims")
      * @return Response
      */
     public function delete(Claim $claim, ClaimRepository $claimRepo, EntityManagerInterface $entityManager)
@@ -39,19 +39,17 @@ class ClaimsController extends AbstractController
         } else {
             $this->addFlash(
                 'warning',
-                "Cette réclamation n'existe pas dans la base de données !"
+                "Cette réclamation n'existe pas !"
             );
         }
         return $this->redirectToRoute('admin');
     }
 
     /**
-     * Afficher une réclamation (catégorie : gestion ou technique) et permettre l'ajout de reponse
-     * @Route("admin/others-claims/{id}", name="admin_others_claims")
+     * Afficher une réclamation (catégorie : autre) et permettre l'ajout de reponse
+     * @Route("admin/reclamation-autre-categorie/{id}", name="admin_others_claims")
      */
-    public function other(ClaimRepository$claimRepository, 
-    Claim $claim, 
-    Request $req, 
+    public function other(ClaimRepository$claimRepository, Claim $claim, Request $req, 
     MailerInterface $mailer, EntityManagerInterface $em): Response
     {
         $otherClaim = $claimRepository->findOneBy(['id' => $claim]);
@@ -101,14 +99,11 @@ class ClaimsController extends AbstractController
 
     /**
      * Afficher une réclamation (catégorie devoir) et permettre l'ajout de reponse
-     * @Route("admin/evaluation/{id}/claim/{claim_id}", name="admin_evaluations_claims")
+     * @Route("admin/devoir/{id}/reclamation/{claim_id}", name="admin_evaluations_claims")
      * @ParamConverter("claim", options={"mapping": {"claim_id": "id"}})
      */
-    public function evaluationClaims(MailerInterface $mailer, 
-    ClaimRepository $claimRepository, 
-    Evaluation $evaluation, 
-    Claim $claim, 
-    Request $req, EntityManagerInterface $em): Response
+    public function evaluationClaims(MailerInterface $mailer, ClaimRepository $claimRepository, 
+    Evaluation $evaluation, Claim $claim, Request $req, EntityManagerInterface $em): Response
     {
         $evaluationClaim = $claimRepository->findOneBy(['id' => $claim]);
         $answer = new Answer();
@@ -168,12 +163,10 @@ class ClaimsController extends AbstractController
 
     /**
      * Afficher une réclamation (catégorie examen) et permettre l'ajout de reponse
-     * @Route("admin/exam/examination/{id}/claim/{claim_id}", name="admin_examination_claims")
+     * @Route("admin/examen/{id}/reclamation/{claim_id}", name="admin_examination_claims")
      * @ParamConverter("claim", options={"mapping": {"claim_id": "id"}})
      */
-    public function exam(ClaimRepository$claimRepository, 
-    Claim $claim, 
-    Examination $examination, 
+    public function exam(ClaimRepository$claimRepository, Claim $claim, Examination $examination, 
     Request $req, EntityManagerInterface $em, MailerInterface $mailer): Response
     {
         $examClaim = $claimRepository->findOneBy(['id' => $claim]);

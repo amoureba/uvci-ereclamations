@@ -22,7 +22,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class MatterSpecialtyController extends AbstractController
 {
     /**
-     * @Route("/admin/levels-specialties-matters/index", name="matters_levels_specialties_index")
+     * @Route("/admin/liaisons-niveaux-specialtes-ecue-semestres/index", name="matters_levels_specialties_index")
      */
     public function index(MatterSpecialtyRepository $matterSpecialtyRepository): Response
     {
@@ -33,16 +33,12 @@ class MatterSpecialtyController extends AbstractController
     }
 
     /**
-     * @Route("/admin/edit-bond/level/{id}/specilaties/{specialty_id}/matters/{matter_id}", name="edit_matter_level_specialty")
+     * @Route("/admin/mise-a-jour-liaison/niveau/{id}/specialite/{specialty_id}/ecue/{matter_id}", name="edit_matter_level_specialty")
      * @ParamConverter("specialty", options={"mapping": {"specialty_id": "id"}})
      * @ParamConverter("matter", options={"mapping": {"matter_id": "id"}})
      */
-    public function edit(Matter $matter, 
-    Level $level, 
-    Specialty $specialty, 
-    MatterSpecialtyRepository $matterSpecialtyRepo, 
-    Request $request, 
-    EntityManagerInterface $entityManager): Response
+    public function edit(Matter $matter, Level $level, Specialty $specialty, MatterSpecialtyRepository $matterSpecialtyRepo, 
+    Request $request, EntityManagerInterface $entityManager): Response
     {
         $matterSpecialty = $matterSpecialtyRepo->findOneBy([
             'level' => $level,
@@ -66,16 +62,12 @@ class MatterSpecialtyController extends AbstractController
     }
 
     /**
-     * @Route("/admin/delete-bond/level/{id}/specilaties/{specialty_id}/matters/{matter_id}", name="delete_bond_matter_level_specialty")
+     * @Route("/admin/supprimer-la-liaison/niveau/{id}/specialite/{specialty_id}/ecue/{matter_id}", name="delete_bond_matter_level_specialty")
      * @ParamConverter("specialty", options={"mapping": {"specialty_id": "id"}})
      * @ParamConverter("matter", options={"mapping": {"matter_id": "id"}})
      */
-    public function delete(Matter $matter, 
-    Level $level, 
-    Specialty $specialty, 
-    MatterSpecialtyRepository $matterSpecialtyRepo, 
-    Request $request, 
-    EntityManagerInterface $entityManager): Response
+    public function delete(Matter $matter, Level $level, Specialty $specialty, MatterSpecialtyRepository $matterSpecialtyRepo, 
+    Request $request, EntityManagerInterface $entityManager): Response
     {
         if($matterSpecialty = $matterSpecialtyRepo->findOneBy([
             'level' => $level,
@@ -98,7 +90,7 @@ class MatterSpecialtyController extends AbstractController
     }
 
     /**
-     * @Route("/admin/levels-specialties-matters/add", name="add_matter_level_specialty")
+     * @Route("/admin/ajouter-des-liaisons-niveaux-specialites-ecue-semestres", name="add_matter_level_specialty")
      */
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -120,12 +112,10 @@ class MatterSpecialtyController extends AbstractController
     }
 
     /**
-     * @Route("/admin/levels-specialties-matters/import", name="matter_level_specialty_import")
+     * @Route("/admin/ajouter-des-liaisons-niveaux-specialites-ecue-semestres-par-importation", name="matter_level_specialty_import")
      * @return Response
      */
-    public function repartition(Request $request, 
-    EntityManagerInterface $entityManager, 
-    MatterRepository $matterRepository,
+    public function repartition(Request $request, EntityManagerInterface $entityManager, MatterRepository $matterRepository,
     MatterSpecialtyRepository $matterSpecialtyRepo)
     {
         $matterSpecialty = new MatterSpecialty();

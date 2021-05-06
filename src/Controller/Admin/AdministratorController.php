@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AdministratorController extends AbstractController
 {
     /**
-     * @Route("/admin/administrators/index", name="administrators_index")
+     * @Route("/admin/administrateurs/index", name="administrators_index")
      */
     public function index(UserRepository $userRepository): Response
     {
@@ -34,7 +34,7 @@ class AdministratorController extends AbstractController
     }
 
     /**
-     * @Route("/admin/administrators/add", name="add_administrators")
+     * @Route("/admin/administrateurs/ajouter", name="add_administrators")
      * @return Response
      */
     public function add(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
@@ -60,7 +60,7 @@ class AdministratorController extends AbstractController
     }
 
     /**
-     * @Route("/admin/supers-administrators/add", name="add_supers_administrators")
+     * @Route("/admin/supers-administrateurs/ajouter", name="add_supers_administrators")
      * @return Response
      */
     public function addSuperAdmin(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
@@ -86,7 +86,7 @@ class AdministratorController extends AbstractController
     }
 
     /**
-     * @Route("/admin/designate-administrators", name="designate_administrators")
+     * @Route("/admin/administrateurs/nommer", name="designate_administrators")
      * @return Response
      */
     public function assignAdmin(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
@@ -120,7 +120,7 @@ class AdministratorController extends AbstractController
     }
 
     /**
-     * @Route("/admin/administrators/{id}/update", name="update_administrators")
+     * @Route("/admin/administrateur/{id}/mise-a-jour", name="update_administrators")
      * @return Response
      */
     public function update(User $user, Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
@@ -146,14 +146,11 @@ class AdministratorController extends AbstractController
     }
 
     /**
-     * @Route("/admin/administrators/{id}/delete", name="delete_administrators")
+     * @Route("/admin/administrateur/{id}/supprimer", name="delete_administrators")
      * @return Response
      */
-    public function delete(
-        User $user,
-        EntityManagerInterface $entityManager,
-        UserRepository $userRepo
-    ) {
+    public function delete(User $user, EntityManagerInterface $entityManager, UserRepository $userRepo)
+    {
         if ($userRepo->findOneBy(['id' => $user])) {
             $entityManager->remove($user);
             $entityManager->flush();
@@ -171,7 +168,7 @@ class AdministratorController extends AbstractController
     }
 
     /** 
-     * @Route("/admin/administrators/{id}/reset-password", name="reset_administrators_password")
+     * @Route("/admin/administrateur/{id}/reinitialiser-mot-de-passe", name="reset_administrators_password")
      * @return Response
      */
     public function resetPassword(User $user, Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
