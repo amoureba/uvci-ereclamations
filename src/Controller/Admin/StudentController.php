@@ -358,7 +358,7 @@ class StudentController extends AbstractController
     }
 
     /**
-     * Enregistrer des étudiants par importation
+     * Ajouter des étudiants par importation
      * @Route("/admin/etudiants/ajouter-par-importation", name="imports_students")
      * @return Response
      */
@@ -482,7 +482,7 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/admin/etudiant/{id}/reclamations", name="show_students_claims")
+     * @Route("/admin/etudiant/{id}/les-reclamations", name="show_students_claims")
      * @return Response
      */
     public function claims(User $user, ClaimRepository $claimRepository)

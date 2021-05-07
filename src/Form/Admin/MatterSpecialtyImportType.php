@@ -19,17 +19,18 @@ class MatterSpecialtyImportType extends AbstractType
     {
         $builder
             ->add('matters', FileType::class, [
-            'label' => 'Fichier des matières (.csv)',
+            'label' => 'Sélectionnez le fichier des matières au format csv utf-8 (délimité par des virgules)',
             'required' => true,
             'mapped' => false,
             'attr' => ['class' => 'form-control-file'],
+            'help' => 'NB: En-tête du fichier obligatoire (code, libelle)',
             'constraints' => [
                 new File([
                     'mimeTypes' => [
                         'text/csv',
                         'text/plain'
                     ],
-                    'mimeTypesMessage' => 'Choisissez un fichier au format csv et réessayez !',
+                    'mimeTypesMessage' => 'Choisissez un fichier au format csv utf-8 (délimité par des virgules) et réessayez !',
                 ])
             ],
             ])

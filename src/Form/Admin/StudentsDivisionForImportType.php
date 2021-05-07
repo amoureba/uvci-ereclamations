@@ -19,7 +19,7 @@ class StudentsDivisionForImportType extends AbstractType
     {
         $builder
             ->add('users', FileType::class, [
-            'label' => 'Fichier des étudiants (.csv)',
+            'label' => 'Sélectionnez le fichier des étudiants au format csv utf-8 (délimité par des virgules)',
             'required' => true,
             'mapped' => false,
             'constraints' => [
@@ -28,7 +28,7 @@ class StudentsDivisionForImportType extends AbstractType
                         'text/csv',
                         'text/plain'
                     ],
-                    'mimeTypesMessage' => 'Choisissez un fichier au format csv et réessayez !',
+                    'mimeTypesMessage' => 'Choisissez un fichier au format csv utf-8 (délimité par des virgules) et réessayez !',
                 ])
             ],
             ])

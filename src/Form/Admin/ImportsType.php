@@ -14,7 +14,7 @@ class ImportsType extends AbstractType
     {
         $builder
             ->add('file', FileType::class, [
-                'label' => 'Sélectionner le fichier (.csv)',
+                'label' => 'Sélectionnez le fichier au format csv utf-8 (délimité par des virgules)',
                 'required' => true,
                 'constraints' => [
                     new File([
@@ -22,7 +22,7 @@ class ImportsType extends AbstractType
                             'text/csv',
                             'text/plain'
                         ],
-                        'mimeTypesMessage' => 'Choisissez un fichier au format csv et réessayez !',
+                        'mimeTypesMessage' => 'Choisissez un fichier au format csv utf-8 (délimité par des virgules) et réessayez !',
                     ])
                     ],
                 ])
